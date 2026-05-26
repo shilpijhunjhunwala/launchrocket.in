@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMC Multi-Country Test Strategy: EU, USA, Australia & Japan Compliance Without Duplicating Costs | Launch Rocket</title>
+<meta name="description" content="How to structure an EMC test programme for multiple markets simultaneously — EU, USA, Canada, Australia, Japan — using CB Scheme and test report sharing to minimise cost.">
+<link rel="canonical" href="https://www.launchrocket.in/articles/emc-multi-country-strategy.html">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>:root{--blue:#0057FF;--blue-l:#E8F0FF;--blue-m:#C2D6FF;--navy:#0A1A3B;--ink:#111827;--ink2:#374151;--muted:#6B7280;--border:#E2E8F0;--bg:#fff;--bg2:#F8FAFF;--green:#059669;--green-l:#ECFDF5;--amber:#D97706;--amber-l:#FFFBEB;--red:#DC2626;--red-l:#FEF2F2;--r:10px;--rl:16px;--fd:'Syne',sans-serif;--fb:'Instrument Sans',sans-serif}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:var(--fb);color:var(--ink);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}.container{max-width:760px;margin:0 auto;padding:0 24px}.container-wide{max-width:1100px;margin:0 auto;padding:0 24px}nav{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:0 1px 8px rgba(0,0,0,.05)}.nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}.logo{display:flex;align-items:center;gap:9px;text-decoration:none}.logo-mark{width:34px;height:34px;position:relative;flex-shrink:0}.logo-ring{position:absolute;inset:0;border-radius:50%;border:2.5px solid transparent;border-top-color:var(--blue);border-right-color:var(--blue);transform:rotate(-45deg)}.logo-core{position:absolute;inset:6px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center}.logo-r{width:11px;height:11px;fill:none;stroke:#fff;stroke-width:1.6;stroke-linecap:round}.logo-name{font-family:var(--fd);font-weight:800;font-size:17px;color:var(--navy);letter-spacing:-.02em}.nav-cta{font-family:var(--fd);font-weight:600;font-size:13px;background:var(--blue);color:#fff;padding:7px 16px;border-radius:8px;text-decoration:none}.article-hero{background:var(--bg2);border-bottom:1px solid var(--border);padding:48px 0 40px}.breadcrumb{font-family:var(--fd);font-size:12px;color:var(--muted);margin-bottom:16px;display:flex;gap:6px}.breadcrumb a{color:var(--blue);text-decoration:none}.cat-badge{display:inline-block;font-family:var(--fd);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:var(--red);color:#fff;padding:4px 10px;border-radius:4px;margin-bottom:14px}.article-title{font-family:var(--fd);font-weight:800;font-size:clamp(26px,4vw,38px);line-height:1.15;color:var(--navy);letter-spacing:-.025em;margin-bottom:16px}.article-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--fd);font-size:12.5px;color:var(--muted)}.meta-dot{width:3px;height:3px;background:var(--muted);border-radius:50%}.article-layout{display:grid;grid-template-columns:1fr 280px;gap:48px;padding:48px 0 80px;align-items:start}.article-body h2{font-family:var(--fd);font-weight:700;font-size:22px;color:var(--navy);margin:36px 0 12px}.article-body h3{font-family:var(--fd);font-weight:600;font-size:17px;color:var(--navy);margin:28px 0 10px}.article-body p{font-size:16px;color:var(--ink2);line-height:1.78;margin-bottom:18px}.article-body ul,.article-body ol{padding-left:20px;margin-bottom:18px}.article-body li{font-size:15.5px;color:var(--ink2);line-height:1.72;margin-bottom:8px}.article-body strong{color:var(--navy);font-weight:600}.article-body a{color:var(--blue);text-decoration:none}.callout{background:var(--blue-l);border:1px solid var(--blue-m);border-left:4px solid var(--blue);border-radius:var(--r);padding:18px 20px;margin:24px 0}.callout.warn{background:var(--amber-l);border-color:#FDE68A;border-left-color:var(--amber)}.callout.success{background:var(--green-l);border-color:#D1FAE5;border-left-color:var(--green)}.callout-title{font-family:var(--fd);font-weight:700;font-size:13px;color:var(--navy);margin-bottom:6px}.callout p{font-size:14px;margin-bottom:0}.data-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}.data-table th{background:var(--navy);color:#fff;padding:10px 14px;text-align:left;font-family:var(--fd);font-size:12px;font-weight:600}.data-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--ink2);vertical-align:top}.data-table tr:nth-child(even) td{background:var(--bg2)}.sidebar{position:sticky;top:80px}.sidebar-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:22px;margin-bottom:18px}.sidebar-card h4{font-family:var(--fd);font-weight:700;font-size:13px;color:var(--navy);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}.sidebar-card p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px}.sidebar-cta{display:block;background:var(--blue);color:#fff;font-family:var(--fd);font-weight:600;font-size:13px;padding:10px 16px;border-radius:8px;text-decoration:none;text-align:center}.related-link{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);text-decoration:none}.related-link:last-child{border-bottom:none}.rl-cat{font-family:var(--fd);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:3px}.rl-title{font-size:13px;color:var(--navy);line-height:1.4;font-family:var(--fd);font-weight:600}.article-footer{background:var(--navy);padding:40px 0;text-align:center}.article-footer p{font-size:13px;color:rgba(255,255,255,.4)}.article-footer a{color:rgba(255,255,255,.6);text-decoration:none}@media(max-width:900px){.article-layout{grid-template-columns:1fr}.sidebar{position:static}}</style>
+</head>
+<body>
+<nav><div class="container-wide"><div class="nav-inner"><a href="../index.html" class="logo"><div class="logo-mark"><div class="logo-ring"></div><div class="logo-core"><svg class="logo-r" viewBox="0 0 13 19"><path d="M6.5 1C6.5 1 11 5 11 10.5L11 14.5L6.5 17.5L2 14.5L2 10.5C2 5 6.5 1 6.5 1Z"/><circle cx="6.5" cy="9" r="2" stroke-width="1.5"/></svg></div></div><span class="logo-name">Launch Rocket</span></a><a href="../index.html#contact" class="nav-cta">Get EMC Help →</a></div></div></nav>
+<div class="article-hero"><div class="container"><div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#blog">Insights</a> › EMC Compliance</div><span class="cat-badge">EMC Compliance</span><h1 class="article-title">EMC Multi-Country Test Strategy: Get EU, USA, Australia &amp; Japan Compliance Without Duplicating Costs</h1><div class="article-meta"><span>March 2026</span><div class="meta-dot"></div><span>Launch Rocket Compliance Team</span><div class="meta-dot"></div><span>9 min read</span></div></div></div>
+<div class="container-wide"><div class="article-layout">
+  <article class="article-body">
+    <p>Electromagnetic Compatibility (EMC) testing is mandatory for electronic products in most major markets worldwide — the EU, USA, Canada, Australia, Japan, South Korea, and many others. Without EMC compliance, products cannot legally be placed on these markets. The challenge is that each jurisdiction has different EMC standards, test procedures, and regulatory submission requirements — and testing the same product multiple times for different markets is both time-consuming and expensive.</p>
+    <p>The good news is that with smart planning, a single well-structured EMC test campaign can generate test data that satisfies multiple national requirements simultaneously — significantly reducing the total cost and timeline for global market entry.</p>
+
+    <h2>What is EMC Testing and Why is it Required?</h2>
+    <p>EMC testing verifies that an electronic device:</p>
+    <ul>
+      <li><strong>Does not emit</strong> excessive electromagnetic interference (EMI) that could disrupt other devices — this is the "emissions" aspect</li>
+      <li><strong>Is immune to</strong> electromagnetic interference from other devices in its operating environment — this is the "immunity" aspect</li>
+    </ul>
+    <p>Every country that requires EMC compliance has the same fundamental objective — protecting the electromagnetic environment — but uses different technical standards to define the acceptable limits and test methods. This creates an opportunity: where standards are aligned, test data can be shared.</p>
+
+    <h2>EMC Requirements by Market</h2>
+    <table class="data-table">
+      <tr><th>Market</th><th>Regulation</th><th>Standards</th><th>Submission</th></tr>
+      <tr><td>European Union</td><td>EMC Directive 2014/30/EU</td><td>EN 301 489 series (radio), EN 55032/55035 (IT equipment)</td><td>Self-declaration with Technical File; no pre-market submission</td></tr>
+      <tr><td>USA</td><td>FCC Part 15, Subpart B</td><td>ANSI C63.4, ANSI C63.10</td><td>SDoC (self-declaration) or FCC Certification depending on class</td></tr>
+      <tr><td>Canada</td><td>ICES-003</td><td>Closely aligned with FCC Part 15B</td><td>SDoC; FCC Part 15B test reports largely accepted</td></tr>
+      <tr><td>Australia / New Zealand</td><td>ACMA Radiocommunications Act</td><td>AS/NZS CISPR 32 (aligned with CISPR 32/EN 55032)</td><td>Self-declaration with supplier declaration of conformity</td></tr>
+      <tr><td>Japan</td><td>VCCI (voluntary but de-facto mandatory for IT equipment)</td><td>VCCI V-3 (based on CISPR 32)</td><td>VCCI registration and mark after passing conformance testing</td></tr>
+      <tr><td>South Korea</td><td>KC (Korea Certification)</td><td>KC EMC standards aligned with CISPR</td><td>KC mark registration with MSIT; testing at accredited lab</td></tr>
+    </table>
+
+    <h2>The CB Scheme — Your Most Powerful Tool for Electrical Safety</h2>
+    <p>Before discussing EMC test sharing, it is essential to mention the <strong>CB Scheme (IEC System for Conformity Assessment of Electrical Equipment)</strong> for electrical safety, because it is the single most cost-efficient mechanism for multi-market electrical safety compliance.</p>
+    <p>The CB Scheme allows a test report from one IECEE-member National Certification Body (NCB) to be used as the basis for obtaining national safety certificates in over 50 participating countries. A single IEC 62368-1 CB test report (the main safety standard for audio/video and IT equipment) can be used to obtain:</p>
+    <ul>
+      <li>CE LVD declaration for the EU</li>
+      <li>UL or ETL safety mark for the USA</li>
+      <li>CSA safety mark for Canada</li>
+      <li>SAA/RCM for Australia</li>
+      <li>PSE for Japan (S-mark, in many cases)</li>
+      <li>KC for South Korea</li>
+    </ul>
+
+    <h2>EMC Test Report Sharing — What Works and What Doesn't</h2>
+    <table class="data-table">
+      <tr><th>Test Area</th><th>Can FCC data support CE?</th><th>Can CE support AU/NZ?</th><th>Notes</th></tr>
+      <tr><td>Radiated emissions (Class B)</td><td>Partially — different limits in some frequency ranges</td><td>Yes — CISPR 32 = EN 55032 = AS/NZS CISPR 32</td><td>A single CISPR 32 test campaign covers EU, AU/NZ, and partially Japan (VCCI)</td></tr>
+      <tr><td>Conducted emissions (AC mains)</td><td>Partially — FCC Part 15B and EN 55032 limits differ below 30 MHz</td><td>Yes — same standard</td><td>Worst-case measurement approach can sometimes cover both</td></tr>
+      <tr><td>Immunity (ESD, EFT, Surge, etc.)</td><td>N/A — FCC has no immunity requirements</td><td>Yes — EN 61000-4 series used globally</td><td>EU CE immunity testing is the most comprehensive; satisfies most other markets</td></tr>
+      <tr><td>Harmonic emissions / Flicker</td><td>N/A — FCC has no equivalent requirement</td><td>Not required in AU/NZ for most products</td><td>EU-only requirement under EN 61000-3-2/3</td></tr>
+    </table>
+
+    <h2>Recommended Test Strategy for 5-Market Coverage</h2>
+    <p>For a product targeting EU, USA, Canada, Australia, and Japan simultaneously, the most cost-efficient test strategy is:</p>
+    <ol>
+      <li><strong>Test to CISPR 32 (Class B) for radiated and conducted emissions</strong> — this single standard covers CE (EN 55032), Australia/NZ (AS/NZS CISPR 32), and VCCI (Japan), and the data can be used with minor supplementary testing for FCC Part 15B and ICES-003.</li>
+      <li><strong>Test to EN 61000-4 series for immunity</strong> — covers CE requirements fully; no equivalent requirement in USA/Canada/Australia, so this adds zero incremental cost for those markets.</li>
+      <li><strong>Obtain CB Scheme safety report to IEC 62368-1</strong> — use this single report to obtain CE LVD, UL/ETL, CSA, and AU/NZ safety compliance.</li>
+      <li><strong>Supplement with FCC Part 15B specific measurements</strong> — to address any gaps between CISPR 32 limits and FCC limits (primarily in the 30 MHz–88 MHz range for some product classes).</li>
+    </ol>
+
+    <div class="callout success"><div class="callout-title">💡 Cost saving estimate</div><p>A well-structured 5-market test campaign following this approach typically costs 35–45% less than five separate sequential test campaigns, and reduces total testing time by 4–8 weeks.</p></div>
+
+    <div class="callout"><div class="callout-title">📞 Need Help?</div><p>Launch Rocket manages multi-country EMC compliance programmes — test plan optimisation, lab coordination, and regulatory submissions across all target markets. <a href="../index.html#contact">Contact us</a> for a free assessment.</p></div>
+  </article>
+  <aside class="sidebar">
+    <div class="sidebar-card"><h4>Multi-Country EMC Help</h4><p>Launch Rocket structures EMC test programmes to cover all target markets at minimum cost and time.</p><a href="../index.html#contact" class="sidebar-cta">Free EMC Assessment</a></div>
+    <div class="sidebar-card"><h4>Related Articles</h4>
+      <a href="fcc-ce-ised-guide-2026.html" class="related-link"><div><div class="rl-cat">Type Approval</div><div class="rl-title">FCC vs CE vs ISED Guide 2026</div></div></a>
+      <a href="anatel-brazil-type-approval.html" class="related-link"><div><div class="rl-cat">Type Approval</div><div class="rl-title">ANATEL Brazil Type Approval</div></div></a>
+    </div>
+  </aside>
+</div></div>
+<footer class="article-footer"><div class="container-wide"><p>&copy; 2026 LaRo Advisors (OPC) Private Limited &nbsp;·&nbsp; CIN: U70200HR2026OPC145560 &nbsp;·&nbsp; <a href="../index.html">launchrocket.in</a></p></div></footer>
+</body></html>

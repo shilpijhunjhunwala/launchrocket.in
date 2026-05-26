@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FCC vs CE vs ISED: Which Type Approvals Does Your Connected Device Need in 2026? | Launch Rocket</title>
+<meta name="description" content="FCC, CE under RED, and ISED are the three most important type approvals for wireless and connected products entering USA, EU, and Canadian markets. This guide explains each, how to sequence them, and how to share test reports across markets.">
+<link rel="canonical" href="https://www.launchrocket.in/articles/fcc-ce-ised-guide-2026.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#0057FF;--blue-l:#E8F0FF;--blue-m:#C2D6FF;--navy:#0A1A3B;--ink:#111827;--ink2:#374151;--muted:#6B7280;--border:#E2E8F0;--bg:#fff;--bg2:#F8FAFF;--bg3:#F1F5FD;--green:#059669;--green-l:#ECFDF5;--amber:#D97706;--amber-l:#FFFBEB;--r:10px;--rl:16px;--fd:'Syne',sans-serif;--fb:'Instrument Sans',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}body{font-family:var(--fb);color:var(--ink);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 24px}
+.container-wide{max-width:1100px;margin:0 auto;padding:0 24px}
+nav{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.logo-mark{width:34px;height:34px;position:relative;flex-shrink:0}
+.logo-ring{position:absolute;inset:0;border-radius:50%;border:2.5px solid transparent;border-top-color:var(--blue);border-right-color:var(--blue);transform:rotate(-45deg)}
+.logo-core{position:absolute;inset:6px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.logo-r{width:11px;height:11px;fill:none;stroke:#fff;stroke-width:1.6;stroke-linecap:round}
+.logo-name{font-family:var(--fd);font-weight:800;font-size:17px;color:var(--navy);letter-spacing:-.02em}
+.nav-cta{font-family:var(--fd);font-weight:600;font-size:13px;background:var(--blue);color:#fff;padding:7px 16px;border-radius:8px;text-decoration:none;transition:.2s}
+.nav-cta:hover{background:#003FBB}
+.article-hero{background:var(--bg2);border-bottom:1px solid var(--border);padding:48px 0 40px}
+.breadcrumb{font-family:var(--fd);font-size:12px;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.cat-badge{display:inline-block;font-family:var(--fd);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:var(--navy);color:#fff;padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.article-title{font-family:var(--fd);font-weight:800;font-size:clamp(26px,4vw,38px);line-height:1.15;color:var(--navy);letter-spacing:-.025em;margin-bottom:16px}
+.article-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--fd);font-size:12.5px;color:var(--muted)}
+.meta-dot{width:3px;height:3px;background:var(--muted);border-radius:50%}
+.article-layout{display:grid;grid-template-columns:1fr 280px;gap:48px;padding:48px 0 80px;align-items:start}
+.article-body h2{font-family:var(--fd);font-weight:700;font-size:22px;color:var(--navy);margin:36px 0 12px;line-height:1.3}
+.article-body h3{font-family:var(--fd);font-weight:600;font-size:17px;color:var(--navy);margin:28px 0 10px}
+.article-body p{font-size:16px;color:var(--ink2);line-height:1.78;margin-bottom:18px}
+.article-body ul,.article-body ol{padding-left:20px;margin-bottom:18px}
+.article-body li{font-size:15.5px;color:var(--ink2);line-height:1.72;margin-bottom:8px}
+.article-body strong{color:var(--navy);font-weight:600}
+.article-body a{color:var(--blue);text-decoration:none}
+.callout{background:var(--blue-l);border:1px solid var(--blue-m);border-left:4px solid var(--blue);border-radius:var(--r);padding:18px 20px;margin:24px 0}
+.callout.warn{background:var(--amber-l);border-color:#FDE68A;border-left-color:var(--amber)}
+.callout.success{background:var(--green-l);border-color:#D1FAE5;border-left-color:var(--green)}
+.callout-title{font-family:var(--fd);font-weight:700;font-size:13px;color:var(--navy);margin-bottom:6px}
+.callout p{font-size:14px;margin-bottom:0}
+.data-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}
+.data-table th{background:var(--navy);color:#fff;padding:10px 14px;text-align:left;font-family:var(--fd);font-size:12px;font-weight:600}
+.data-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--ink2);vertical-align:top}
+.data-table tr:nth-child(even) td{background:var(--bg2)}
+.approval-card{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:22px;margin:20px 0;border-top:4px solid var(--blue)}
+.approval-card.eu{border-top-color:var(--green)}
+.approval-card.ca{border-top-color:var(--amber)}
+.ac-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.ac-badge{font-family:var(--fd);font-weight:800;font-size:14px;background:var(--navy);color:#fff;padding:6px 14px;border-radius:8px}
+.ac-name{font-family:var(--fd);font-weight:700;font-size:16px;color:var(--navy)}
+.ac-sub{font-size:13px;color:var(--muted)}
+.sidebar{position:sticky;top:80px}
+.sidebar-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:22px;margin-bottom:18px}
+.sidebar-card h4{font-family:var(--fd);font-weight:700;font-size:13px;color:var(--navy);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.sidebar-card p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.sidebar-cta{display:block;background:var(--blue);color:#fff;font-family:var(--fd);font-weight:600;font-size:13px;padding:10px 16px;border-radius:8px;text-decoration:none;text-align:center;transition:.2s}
+.sidebar-cta:hover{background:#003FBB}
+.related-link{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);text-decoration:none}
+.related-link:last-child{border-bottom:none}
+.rl-cat{font-family:var(--fd);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:3px}
+.rl-title{font-size:13px;color:var(--navy);line-height:1.4;font-family:var(--fd);font-weight:600}
+.article-footer{background:var(--navy);padding:40px 0;text-align:center}
+.article-footer p{font-size:13px;color:rgba(255,255,255,.4)}
+.article-footer a{color:rgba(255,255,255,.6);text-decoration:none}
+@media(max-width:900px){.article-layout{grid-template-columns:1fr}.sidebar{position:static}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="container-wide">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo"><div class="logo-mark"><div class="logo-ring"></div><div class="logo-core"><svg class="logo-r" viewBox="0 0 13 19"><path d="M6.5 1C6.5 1 11 5 11 10.5L11 14.5L6.5 17.5L2 14.5L2 10.5C2 5 6.5 1 6.5 1Z"/><circle cx="6.5" cy="9" r="2" stroke-width="1.5"/></svg></div></div><span class="logo-name">Launch Rocket</span></a>
+      <a href="../index.html#contact" class="nav-cta">Get Approval Help →</a>
+    </div>
+  </div>
+</nav>
+<div class="article-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#blog">Insights</a> › Global Type Approval</div>
+    <span class="cat-badge">Global Type Approval Guide</span>
+    <h1 class="article-title">FCC vs CE vs ISED: Which Type Approvals Does Your Connected Device Need in 2026?</h1>
+    <div class="article-meta"><span>May 2026</span><div class="meta-dot"></div><span>Launch Rocket Compliance Team</span><div class="meta-dot"></div><span>10 min read</span><div class="meta-dot"></div><span>Global Type Approval</span></div>
+  </div>
+</div>
+<div class="container-wide">
+  <div class="article-layout">
+    <article class="article-body">
+      <p>If you are manufacturing or importing a wireless or connected device — Wi-Fi router, Bluetooth speaker, smartwatch, IoT sensor, or cellular module — and you want to sell it in the USA, European Union, or Canada, three type approvals are almost always mandatory: <strong>FCC authorization</strong>, <strong>CE marking under the Radio Equipment Directive (RED)</strong>, and <strong>ISED certification</strong>. Together these three markets represent over 40% of global electronics sales.</p>
+      <p>Understanding how these approvals work, how they differ, and how to build a cost-efficient test strategy that covers all three simultaneously is critical for any product manufacturer targeting these markets.</p>
+
+      <div class="approval-card">
+        <div class="ac-header"><span class="ac-badge">FCC</span><div><div class="ac-name">Federal Communications Commission</div><div class="ac-sub">United States of America</div></div></div>
+        <p>The FCC regulates all radio frequency (RF) devices sold or used in the USA. Any product that intentionally or unintentionally generates radio frequency emissions must obtain FCC authorization before it can be marketed in the US. There are three types of FCC authorization procedures:</p>
+        <ul>
+          <li><strong>Certification:</strong> The most rigorous path — required for products with intentional radio transmitters (Wi-Fi, Bluetooth, LTE, etc.). Testing must be done at an FCC-recognized accredited lab (ANSI/NVLAP or ANAB accredited). The application is filed through a Telecommunications Certification Body (TCB) or directly with the FCC.</li>
+          <li><strong>Supplier's Declaration of Conformity (SDoC):</strong> Used for certain unintentional radiators (devices that emit RF as a byproduct of operation but don't intentionally transmit). Manufacturer self-declares compliance based on lab testing.</li>
+          <li><strong>Verification:</strong> For the lowest-risk devices. Manufacturer retains test records but does not submit them to the FCC.</li>
+        </ul>
+        <p><strong>Key requirements:</strong> FCC ID assigned and displayed on the product (for Certification), equipment authorization letter, test reports to FCC Part 15 (for unintentional radiators) or relevant Part (for intentional transmitters), and compliance labelling.</p>
+        <p><strong>Timeline:</strong> 4–10 weeks from test completion to grant of authorization. <strong>Cost:</strong> Lab testing $3,000–$15,000 depending on radio technologies; FCC filing fees $1,000–$3,000.</p>
+      </div>
+
+      <div class="approval-card eu">
+        <div class="ac-header"><span class="ac-badge" style="background:#059669">CE</span><div><div class="ac-name">CE Marking — Radio Equipment Directive (RED)</div><div class="ac-sub">European Economic Area (EU 27 + EEA)</div></div></div>
+        <p>The CE mark is mandatory for all radio equipment placed on the EU market. The Radio Equipment Directive (RED) — Directive 2014/53/EU — is the primary regulation covering wireless devices. Unlike the FCC, CE marking does not require a pre-market approval by a government authority for most products. Instead, manufacturers self-declare conformity by following a conformity assessment procedure and affixing the CE mark, supported by a Declaration of Conformity and a Technical File.</p>
+        <ul>
+          <li><strong>Essential requirements under RED:</strong> Article 3.1a (electrical safety — covered by EN 62368-1 or EN 60950-1 transition), Article 3.1b (EMC — covered by EN 301 489 series), Article 3.2 (radio spectrum use — covered by relevant ETSI standards e.g. EN 300 328 for 2.4 GHz Wi-Fi).</li>
+          <li><strong>Notified Body involvement:</strong> For most standard Wi-Fi/Bluetooth products, a Notified Body is NOT required — the manufacturer can follow self-certification (Module A). Products using non-harmonised frequency bands or lacking harmonised standards may require Notified Body involvement.</li>
+          <li><strong>Technical File:</strong> Must be maintained and made available to market surveillance authorities on request for 10 years after the last product is placed on the market.</li>
+          <li><strong>UKCA marking:</strong> Since Brexit, products sold in Great Britain (England, Scotland, Wales) require UKCA marking separately from CE. Northern Ireland accepts both CE and UKNI marking. Many manufacturers choose to obtain both CE and UKCA simultaneously.</li>
+        </ul>
+        <p><strong>Timeline:</strong> 4–8 weeks from test completion to CE declaration. <strong>Cost:</strong> Lab testing €2,000–€12,000 depending on technologies; Notified Body fee (if applicable) €1,500–€5,000.</p>
+      </div>
+
+      <div class="approval-card ca">
+        <div class="ac-header"><span class="ac-badge" style="background:#D97706">ISED</span><div><div class="ac-name">Innovation, Science and Economic Development Canada</div><div class="ac-sub">Canada</div></div></div>
+        <p>ISED (formerly Industry Canada) regulates radio and terminal equipment in Canada. Like the FCC, ISED requires pre-market certification for radio equipment. Canada has worked to harmonize its technical requirements closely with the FCC — which is extremely helpful for manufacturers seeking both FCC and ISED approvals simultaneously.</p>
+        <ul>
+          <li><strong>Radio Standards Specifications (RSS):</strong> ISED publishes RSS documents that define technical requirements. RSS-Gen (general requirements), RSS-102 (human exposure limits), and technology-specific documents like RSS-247 (for 2.4 GHz/5 GHz Wi-Fi and Bluetooth) align closely with FCC Part 15.</li>
+          <li><strong>IC Certification Number:</strong> Similar to the FCC ID, a Certification Number is assigned by ISED and must be displayed on the product (e.g., IC: 1234A-MODELXYZ).</li>
+          <li><strong>Test report sharing with FCC:</strong> Because RSS and FCC technical standards are closely aligned, a single set of test reports can often satisfy both FCC and ISED requirements — significantly reducing testing costs for dual-market launches.</li>
+        </ul>
+        <p><strong>Timeline:</strong> 3–8 weeks. <strong>Cost:</strong> When combined with FCC testing, incremental cost is typically CAD $500–$2,000 additional.</p>
+      </div>
+
+      <h2>Test Report Sharing — The Key to Cost Efficiency</h2>
+      <p>One of the most important strategic decisions for any manufacturer seeking multi-market approvals is how to structure the test programme to maximise test report reuse. Here is how overlap works across FCC, CE, and ISED:</p>
+      <table class="data-table">
+        <tr><th>Test Area</th><th>FCC Standard</th><th>CE Standard</th><th>ISED Standard</th><th>Report Shareable?</th></tr>
+        <tr><td>2.4 GHz Wi-Fi / Bluetooth</td><td>FCC Part 15.247</td><td>EN 300 328</td><td>RSS-247</td><td>Partially (same measurements, different limits in places)</td></tr>
+        <tr><td>5 GHz Wi-Fi (UNII bands)</td><td>FCC Part 15.407</td><td>EN 301 893</td><td>RSS-247</td><td>Partially</td></tr>
+        <tr><td>EMC (radiated emissions)</td><td>FCC Part 15B</td><td>EN 301 489 series</td><td>ICES-003</td><td>ISED accepts FCC Part 15B reports in most cases</td></tr>
+        <tr><td>Electrical Safety</td><td>UL/IEC 62368-1</td><td>EN 62368-1</td><td>CAN/CSA C22.2</td><td>CB Scheme report covers all three — best option</td></tr>
+        <tr><td>SAR / Human Exposure</td><td>FCC OET Bulletin 65</td><td>EN 62209 / IEC 62232</td><td>RSS-102</td><td>Partially — some measurements can be shared</td></tr>
+      </table>
+
+      <h2>Recommended Sequencing for a 3-Market Launch</h2>
+      <p>For a product targeting USA, EU, and Canada simultaneously, the recommended approach is:</p>
+      <ol>
+        <li><strong>Start with FCC certification</strong> — the most structured process with clear timelines. FCC test data can be reused for ISED and partially for CE.</li>
+        <li><strong>Run CE RED testing in parallel</strong> — using the same physical test campaign where possible. EN 300 328 and FCC Part 15.247 require some of the same measurements.</li>
+        <li><strong>Obtain a CB Scheme electrical safety certificate</strong> — the CB Scheme is the most efficient route because a single CB test report (to IEC 62368-1) is accepted by national certification bodies in over 50 countries, including for UL/ETL (USA), CSA (Canada), and CE LVD (EU).</li>
+        <li><strong>File ISED alongside FCC</strong> — share FCC test reports where alignment allows, with supplementary testing only where Canadian-specific requirements differ.</li>
+      </ol>
+
+      <div class="callout success">
+        <div class="callout-title">💡 Pro tip</div>
+        <p>A well-structured test campaign targeting all three markets simultaneously typically costs 30–40% less than three separate sequential test campaigns. Planning the test programme before ordering samples is critical.</p>
+      </div>
+
+      <h2>When Do You Need All Three?</h2>
+      <p>You need FCC + CE + ISED if your product:</p>
+      <ul>
+        <li>Contains any intentional radio transmitter (Wi-Fi, Bluetooth, Zigbee, Z-Wave, LoRa, LTE/5G, etc.)</li>
+        <li>Will be sold through retail channels, e-commerce platforms, or distributed to enterprise customers in all three markets</li>
+        <li>Is imported into the USA, EU member states, or Canada in commercial quantities</li>
+      </ul>
+      <p>Even if you are only selling through a distributor, the manufacturer or importer bears responsibility for ensuring the required approvals are in place before the product enters commerce. Selling without required authorizations attracts significant penalties — FCC fines can reach $100,000+ per violation, and EU market surveillance authorities can require product recall and destruction.</p>
+
+      <div class="callout">
+        <div class="callout-title">📞 Need Help?</div>
+        <p>Launch Rocket manages FCC, CE/RED, and ISED approvals for manufacturers and importers — including lab coordination, documentation preparation, and submission. <a href="../index.html#contact">Contact us</a> for a free assessment of your device's approval requirements.</p>
+      </div>
+    </article>
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <h4>Get Type Approval Help</h4>
+        <p>Launch Rocket manages FCC, CE/RED, ISED and 100+ country approvals — single point of contact for all markets.</p>
+        <a href="../index.html#contact" class="sidebar-cta">Free Approval Assessment</a>
+      </div>
+      <div class="sidebar-card">
+        <h4>Related Articles</h4>
+        <a href="anatel-brazil-type-approval.html" class="related-link"><div><div class="rl-cat">Type Approval</div><div class="rl-title">ANATEL Brazil: What Exporters Must Know</div></div></a>
+        <a href="emc-multi-country-strategy.html" class="related-link"><div><div class="rl-cat">EMC Compliance</div><div class="rl-title">EMC Multi-Country Test Strategy</div></div></a>
+        <a href="bis-crs-expansion-2026.html" class="related-link"><div><div class="rl-cat">India Compliance</div><div class="rl-title">BIS CRS Expansion 2026</div></div></a>
+      </div>
+    </aside>
+  </div>
+</div>
+<footer class="article-footer">
+  <div class="container-wide"><p>&copy; 2026 LaRo Advisors (OPC) Private Limited &nbsp;·&nbsp; CIN: U70200HR2026OPC145560 &nbsp;·&nbsp; <a href="../index.html">launchrocket.in</a> &nbsp;·&nbsp; <a href="mailto:care@launchrocket.in">care@launchrocket.in</a></p></div>
+</footer>
+</body>
+</html>
