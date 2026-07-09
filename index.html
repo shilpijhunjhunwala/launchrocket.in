@@ -334,6 +334,7 @@ footer{background:#060E1F;color:rgba(255,255,255,.48);padding:56px 0 26px}
         </li>
         <li><a href="#services">Commerce</a></li>
         <li><a href="#blog">Insights</a></li>
+        <li><a href="#faq">FAQ</a></li>
         <li><a href="#contact" class="nav-cta">Get Started</a></li>
       </ul>
       <button class="hbg" id="hbg" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span><span></span></button>
@@ -668,6 +669,61 @@ footer{background:#060E1F;color:rgba(255,255,255,.48);padding:56px 0 26px}
   </div>
 </section>
 
+<!-- FAQ (21st.dev-style accordion) -->
+<style>
+.faq-sec{background:var(--bg2);border-top:1px solid var(--border)}
+.faq-wrap{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.faq-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--rl);box-shadow:var(--sh);transition:border-color .25s,box-shadow .25s}
+.faq-item:hover{border-color:var(--blue-m)}
+.faq-item.open{border-color:var(--blue-m);box-shadow:var(--shm)}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 22px;background:none;border:0;cursor:pointer;text-align:left;font-family:var(--fd);font-weight:600;font-size:16px;color:var(--navy);line-height:1.4}
+.faq-q:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:var(--rl)}
+.faq-ico{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-l);color:var(--blue);display:flex;align-items:center;justify-content:center;transition:transform .3s ease,background .25s}
+.faq-item.open .faq-ico{transform:rotate(45deg);background:var(--blue);color:#fff}
+.faq-ico svg{width:14px;height:14px;stroke:currentColor;stroke-width:2.4;fill:none;stroke-linecap:round}
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.faq-item.open .faq-a{grid-template-rows:1fr}
+.faq-a-inner{overflow:hidden}
+.faq-a p{padding:0 22px 22px;font-size:15px;color:var(--ink2);line-height:1.72;margin:0}
+.faq-a p b{color:var(--navy);font-weight:600}
+</style>
+<section class="section faq-sec" id="faq">
+  <div class="container">
+    <div class="sc">
+      <div class="eyebrow reveal">Frequently Asked Questions</div>
+      <h2 class="reveal d1">Compliance Questions, <span class="bl">Answered</span></h2>
+      <p class="sdesc reveal d2">Straight answers on India certification, global type approval, and how we work — from the Launch Rocket compliance team.</p>
+    </div>
+    <div class="faq-wrap reveal">
+      <div class="faq-item open">
+        <button class="faq-q" aria-expanded="true" aria-controls="faqp1">Which certifications do I need to sell my product in India?<span class="faq-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a" id="faqp1" role="region"><div class="faq-a-inner"><p>It depends on your product category. Electronics typically need <b>BIS/CRS</b>; wireless and RF devices need <b>WPC/ETA</b> and often <b>TEC/MTCTE</b>; food products need <b>FSSAI</b>; medical devices and cosmetics need <b>CDSCO</b>; and almost all packaged goods need <b>Legal Metrology</b> labelling plus <b>EPR</b> registration for e-waste, batteries, or plastic packaging. We start with a free product review and give you the exact list that applies to you.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faqp2">Do you handle both India compliance and global type approval?<span class="faq-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a" id="faqp2" role="region"><div class="faq-a-inner"><p>Yes. We manage India certifications (BIS, FSSAI, CDSCO, WPC, TEC, Legal Metrology, EPR and more) and global type approvals such as <b>FCC</b> (USA), <b>CE/RED</b> (EU), <b>ISED</b> (Canada), <b>ANATEL</b> (Brazil), and <b>SRRC</b> (China) — across 100+ countries — as a single point of contact.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faqp3">How long does certification typically take?<span class="faq-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a" id="faqp3" role="region"><div class="faq-a-inner"><p>Timelines vary by scheme and by how quickly documentation and samples are available. As a general guide, WPC/ETA approvals are usually among the fastest, while BIS/CRS and CDSCO registrations take longer due to lab testing and authority review. After the initial review we give you a realistic, product-specific timeline upfront — no surprises.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faqp4">Can you help a foreign manufacturer with no legal entity in India?<span class="faq-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a" id="faqp4" role="region"><div class="faq-a-inner"><p>Yes. Foreign manufacturers can obtain BIS certification under the <b>Scheme&nbsp;X / FMCS</b> route, and we support Authorised Indian Representative (AIR) arrangements and import compliance where required — so you can certify and sell in India without first setting up a local entity.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faqp5">What does EPR registration involve?<span class="faq-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a" id="faqp5" role="region"><div class="faq-a-inner"><p>Extended Producer Responsibility applies to producers, importers, and brand owners of <b>e-waste, batteries, and plastic packaging</b>. It covers registration on the CPCB/MoEF&amp;CC portal, meeting annual recycling targets, and filing annual returns. We handle registration and ongoing compliance so you stay on the right side of the rules.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faqp6">How do we get started, and what do you need from us?<span class="faq-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a" id="faqp6" role="region"><div class="faq-a-inner"><p>Just share your product details and target markets. We assess applicable regulations, provide a compliance roadmap with timelines and costs, then manage testing, documentation, submission, and renewals end-to-end. <a href="#contact" style="color:var(--blue);font-weight:600;text-decoration:none">Talk to an expert →</a></p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which certifications do I need to sell my product in India?","acceptedAnswer":{"@type":"Answer","text":"It depends on your product category. Electronics typically need BIS/CRS; wireless and RF devices need WPC/ETA and often TEC/MTCTE; food products need FSSAI; medical devices and cosmetics need CDSCO; and almost all packaged goods need Legal Metrology labelling plus EPR registration for e-waste, batteries, or plastic packaging."}},{"@type":"Question","name":"Do you handle both India compliance and global type approval?","acceptedAnswer":{"@type":"Answer","text":"Yes. We manage India certifications (BIS, FSSAI, CDSCO, WPC, TEC, Legal Metrology, EPR) and global type approvals such as FCC (USA), CE/RED (EU), ISED (Canada), ANATEL (Brazil), and SRRC (China) across 100+ countries as a single point of contact."}},{"@type":"Question","name":"How long does certification typically take?","acceptedAnswer":{"@type":"Answer","text":"Timelines vary by scheme and documentation readiness. WPC/ETA approvals are usually among the fastest, while BIS/CRS and CDSCO registrations take longer due to lab testing and authority review. We provide a realistic, product-specific timeline after the initial review."}},{"@type":"Question","name":"Can you help a foreign manufacturer with no legal entity in India?","acceptedAnswer":{"@type":"Answer","text":"Yes. Foreign manufacturers can obtain BIS certification under the Scheme X / FMCS route, and we support Authorised Indian Representative (AIR) arrangements and import compliance, so you can certify and sell in India without first setting up a local entity."}},{"@type":"Question","name":"What does EPR registration involve?","acceptedAnswer":{"@type":"Answer","text":"Extended Producer Responsibility applies to producers, importers, and brand owners of e-waste, batteries, and plastic packaging. It covers registration on the CPCB/MoEF&CC portal, meeting annual recycling targets, and filing annual returns."}},{"@type":"Question","name":"How do we get started, and what do you need from us?","acceptedAnswer":{"@type":"Answer","text":"Share your product details and target markets. We assess applicable regulations, provide a compliance roadmap with timelines and costs, then manage testing, documentation, submission, and renewals end-to-end."}}]}</script>
+
 <!-- CONTACT STRIP -->
 <div class="cstrip"><div class="container"><div class="cstrip-inner">
   <div class="citem"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>care@launchrocket.in</div>
@@ -729,6 +785,7 @@ footer{background:#060E1F;color:rgba(255,255,255,.48);padding:56px 0 26px}
         <ul class="fl">
           <li><a href="#services">Commerce Services</a></li>
           <li><a href="#blog">Insights &amp; Blog</a></li>
+          <li><a href="#faq">FAQ</a></li>
           <li><a href="#contact">Contact Us</a></li>
           <li><a href="mailto:care@launchrocket.in">care@launchrocket.in</a></li>
           <li><a href="tel:+919667671330">+91 96676 71330</a></li>
@@ -757,6 +814,18 @@ function filterC(cat,btn){
   btn.classList.add('active');
   document.querySelectorAll('#regGrid .reg-card').forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none'});
 }
+// FAQ accordion — single item open at a time, accessible via aria-expanded.
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.closest('.faq-item');
+    const isOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(o=>{
+      o.classList.remove('open');
+      o.querySelector('.faq-q').setAttribute('aria-expanded','false');
+    });
+    if(!isOpen){item.classList.add('open');btn.setAttribute('aria-expanded','true');}
+  });
+});
 </script>
 
 <!-- If JS is unavailable the reveal elements would stay hidden — show them. -->
