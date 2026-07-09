@@ -17,7 +17,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"LaRo Advisors (OPC) Private Limited","alternateName":"Launch Rocket","url":"https://www.launchrocket.in","description":"India certification and e-commerce enablement — BIS, FSSAI, CDSCO, Legal Metrology and EPR, plus marketplace growth, ProductLabelGuru label compliance, and RocketProof compliant reviews. FCC & CE support for exporters.","address":{"@type":"PostalAddress","addressCountry":"IN"}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --blue:#0057FF;--blue-d:#003FBB;--blue-l:#E8F0FF;--blue-m:#C2D6FF;
@@ -29,7 +29,7 @@
   --red:#DC2626;--red-l:#FEF2F2;
   --r:10px;--rl:16px;
   --sh:0 2px 12px rgba(0,87,255,.07);--shm:0 6px 28px rgba(0,87,255,.11);--shl:0 16px 56px rgba(10,26,59,.13);
-  --fd:'Syne',sans-serif;--fb:'Instrument Sans',sans-serif;
+  --fd:'Plus Jakarta Sans',sans-serif;--fb:'Inter',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -144,7 +144,7 @@ h2 .bl{color:var(--blue)} h2 .gr{color:var(--green)} h2.wh{color:white}
 .reg-card:hover{border-color:var(--blue-m);box-shadow:var(--shm);transform:translateY(-3px)}
 .reg-card:hover::before{transform:scaleX(1)}
 .reg-card.gr2::before{background:var(--green)}.reg-card.gr2:hover{border-color:var(--green-b)}
-.reg-logo{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-family:var(--fd);font-weight:800;font-size:10px;color:white;letter-spacing:.02em}
+.reg-logo{display:inline-flex;min-width:40px;height:40px;padding:0 10px;border-radius:9px;align-items:center;justify-content:center;margin-bottom:12px;font-family:var(--fd);font-weight:800;font-size:11px;color:white;letter-spacing:.01em;white-space:nowrap}
 .reg-num{font-size:10px;font-family:var(--fd);font-weight:600;letter-spacing:.15em;color:var(--muted);margin-bottom:10px;display:block}
 h3.rt{font-family:var(--fd);font-weight:700;font-size:13.5px;color:var(--navy);margin-bottom:7px;line-height:1.3}
 .rt-sub{font-size:11.5px;color:var(--muted);line-height:1.55;margin-bottom:12px}
@@ -353,8 +353,8 @@ footer{background:#060E1F;color:rgba(255,255,255,.48);padding:56px 0 26px}
         <h1 class="reveal d1">Get <span class="bl">Certified.</span><br>Get <span class="lt">Listed.</span><br>Get Reviewed — the compliant way.</h1>
         <p class="hero-desc reveal d2">Launch Rocket is your India certification and e-commerce growth partner — from BIS, FSSAI, CDSCO, Legal Metrology and EPR to marketplace enablement, <strong>ProductLabelGuru</strong> label compliance, and <strong>RocketProof</strong> compliant reviews &amp; pre-launch experience intelligence. FCC &amp; CE support when you export.</p>
         <div class="hero-acts reveal d3">
-          <a href="#india-compliance" class="btn-p"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>India Certification</a>
-          <a href="#ecommerce" class="btn-s">E-Commerce Enablement</a>
+          <a href="#ecommerce" class="btn-p"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.3 2.3M17 13l1.7 2.3M9 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z"/></svg>E-Commerce Enablement</a>
+          <a href="#india-compliance" class="btn-s">India Certification</a>
         </div>
         <div class="hero-tags reveal d4">
           <div class="ht-lbl">India certification &amp; labelling</div>
@@ -388,38 +388,6 @@ footer{background:#060E1F;color:rgba(255,255,255,.48);padding:56px 0 26px}
 </div></div></div>
 
 <main>
-
-<!-- INDIA COMPLIANCE -->
-<section class="section" id="india-compliance">
-  <div class="container">
-    <div class="sc">
-      <div class="eyebrow reveal">India Certification &amp; Compliance</div>
-      <h2 class="reveal d1">Navigate India's <span class="bl">Regulatory Landscape</span></h2>
-      <p class="sdesc reveal d2">India's certification framework spans electronics, food, medical devices, packaging, labelling, and waste management — mandatory for every importer, brand, and marketplace seller. We manage the full process end-to-end so your products can be listed and sold without interruption.</p>
-    </div>
-    <div class="comp-tabs reveal" id="compTabs">
-      <button class="comp-tab active" onclick="filterC('all',this)">All</button>
-      <button class="comp-tab" onclick="filterC('product',this)">Product Certifications</button>
-      <button class="comp-tab" onclick="filterC('food',this)">Food &amp; Health</button>
-      <button class="comp-tab" onclick="filterC('telecom',this)">Electronics &amp; Wireless</button>
-      <button class="comp-tab" onclick="filterC('env',this)">Environment &amp; EPR</button>
-      <button class="comp-tab" onclick="filterC('trade',this)">Trade &amp; Export</button>
-    </div>
-    <div class="reg-grid" id="regGrid">
-      <article class="reg-card reveal" data-cat="telecom"><span class="reg-num">01</span><div class="reg-logo" style="background:#0057FF">BIS</div><h3 class="rt">BIS / CRS Certification</h3><p class="rt-sub">Mandatory for 400+ product categories. ISI Mark, CRS for electronics, and Scheme X for foreign manufacturers importing into India.</p><div class="rt-tags"><span class="rt-tag">ISI Mark</span><span class="rt-tag">CRS</span><span class="rt-tag">Scheme X</span><span class="rt-tag">Electronics</span></div></article>
-      <article class="reg-card reveal d1" data-cat="food"><span class="reg-num">02</span><div class="reg-logo" style="background:#D97706">FSSAI</div><h3 class="rt">FSSAI Registration &amp; License</h3><p class="rt-sub">Mandatory for all food businesses, importers, and marketplace sellers. Central, State, and Basic licensing including import NOC and labelling compliance.</p><div class="rt-tags"><span class="rt-tag g">Central License</span><span class="rt-tag g">Import NOC</span><span class="rt-tag g">Labelling</span></div></article>
-      <article class="reg-card reveal d2" data-cat="food"><span class="reg-num">03</span><div class="reg-logo" style="background:#059669">CDSCO</div><h3 class="rt">CDSCO — Medical Devices &amp; Cosmetics</h3><p class="rt-sub">Class A–D medical device registration, cosmetics license, pharmaceuticals, and import license. Mandatory for import and sale in India.</p><div class="rt-tags"><span class="rt-tag g">Medical Devices</span><span class="rt-tag g">Cosmetics</span><span class="rt-tag g">Import License</span></div></article>
-      <article class="reg-card reveal d3" data-cat="telecom"><span class="reg-num">04</span><div class="reg-logo" style="background:#7C3AED">WPC</div><h3 class="rt">WPC Equipment Type Approval</h3><p class="rt-sub">Mandatory for all wireless and RF devices in India — Wi-Fi, Bluetooth, Zigbee, cellular, and IoT devices under DoT's Equipment Type Approval (ETA) process.</p><div class="rt-tags"><span class="rt-tag p">ETA Approval</span><span class="rt-tag p">Wi-Fi</span><span class="rt-tag p">Bluetooth</span><span class="rt-tag p">IoT</span></div></article>
-      <article class="reg-card reveal d1" data-cat="product"><span class="reg-num">05</span><div class="reg-logo" style="background:#6D28D9">LM</div><h3 class="rt">Legal Metrology &amp; Labelling</h3><p class="rt-sub">Mandatory for all packaged goods — MRP, net quantity, importer name and address, country of origin. The #1 cause of marketplace listing suppression — fixed by <a href="#productlabelguru" style="color:var(--blue);text-decoration:none;font-weight:600">ProductLabelGuru</a>.</p><div class="rt-tags"><span class="rt-tag p">MRP Labelling</span><span class="rt-tag p">Importer Reg.</span><span class="rt-tag p">Packaged Goods</span></div></article>
-      <article class="reg-card gr2 reveal d2" data-cat="env"><span class="reg-num">06</span><div class="reg-logo" style="background:#059669">EPR</div><h3 class="rt">Extended Producer Responsibility</h3><p class="rt-sub">Mandatory for producers, importers, and brand owners of e-waste, battery, plastic packaging — registration, annual targets, and return filing on MoEF&amp;CC portal.</p><div class="rt-tags"><span class="rt-tag g">E-Waste</span><span class="rt-tag g">Battery</span><span class="rt-tag g">Plastics</span></div></article>
-      <article class="reg-card gr2 reveal d3" data-cat="env"><span class="reg-num">07</span><div class="reg-logo" style="background:#065F46">BEE</div><h3 class="rt">BEE Star Rating</h3><p class="rt-sub">Mandatory energy efficiency star labelling for ACs, refrigerators, washing machines, TVs, and fans. Required for sale on Indian marketplaces.</p><div class="rt-tags"><span class="rt-tag g">Star Rating</span><span class="rt-tag g">Appliances</span><span class="rt-tag g">Energy Eff.</span></div></article>
-      <article class="reg-card reveal" data-cat="trade"><span class="reg-num">08</span><div class="reg-logo" style="background:#92400E">DGFT</div><h3 class="rt">DGFT — IEC &amp; Export Licences</h3><p class="rt-sub">IEC registration, RCMC, SCOMET compliance, RoDTEP and export scheme advisory under India's Foreign Trade Policy for exporters and importers.</p><div class="rt-tags"><span class="rt-tag a">IEC</span><span class="rt-tag a">RCMC</span><span class="rt-tag a">SCOMET</span><span class="rt-tag a">RoDTEP</span></div></article>
-      <article class="reg-card reveal d1" data-cat="food"><span class="reg-num">09</span><div class="reg-logo" style="background:#7C2D12">AYUSH</div><h3 class="rt">AYUSH Licensing</h3><p class="rt-sub">Licensing for Ayurvedic, Unani, Siddha, and homeopathic products. Import NOC and manufacturing license for traditional medicine and herbal products.</p><div class="rt-tags"><span class="rt-tag">Ayurveda</span><span class="rt-tag">Herbal</span><span class="rt-tag">Import NOC</span></div></article>
-      <article class="reg-card reveal d2" data-cat="env"><span class="reg-num">10</span><div class="reg-logo" style="background:#1F2937">PESO</div><h3 class="rt">PESO Approval</h3><p class="rt-sub">For hazardous products — pressurized gas, flammable liquids, aerosols, gas cylinders, and lighters under the Petroleum &amp; Explosives Safety Organisation.</p><div class="rt-tags"><span class="rt-tag">Hazardous</span><span class="rt-tag">Aerosols</span><span class="rt-tag">Gas Cylinders</span></div></article>
-      <article class="reg-card reveal d3" data-cat="trade"><span class="reg-num">11</span><div class="reg-logo" style="background:#115E59">APEDA</div><h3 class="rt">APEDA / MPEDA Export Certification</h3><p class="rt-sub">Mandatory registrations and certifications for agricultural, processed food, marine, and horticultural exports — RCMC, quality marks, and phytosanitary certificates.</p><div class="rt-tags"><span class="rt-tag a">APEDA RCMC</span><span class="rt-tag a">Agri Exports</span><span class="rt-tag a">Marine</span></div></article>
-    </div>
-  </div>
-</section>
 
 <!-- E-COMMERCE ENABLEMENT -->
 <style>
@@ -619,6 +587,38 @@ footer{background:#060E1F;color:rgba(255,255,255,.48);padding:56px 0 26px}
       <h3>Start with a free Category Trust Snapshot</h3>
       <p>We'll analyse the reviews in your category, show you the three issues driving 1★ ratings, and map your fastest compliant path to review velocity — free, in one week.</p>
       <a href="#contact" class="btn-rp-cta">Get my free snapshot →</a>
+    </div>
+  </div>
+</section>
+
+<!-- INDIA COMPLIANCE -->
+<section class="section section-alt" id="india-compliance">
+  <div class="container">
+    <div class="sc">
+      <div class="eyebrow reveal">India Certification &amp; Compliance</div>
+      <h2 class="reveal d1">Navigate India's <span class="bl">Regulatory Landscape</span></h2>
+      <p class="sdesc reveal d2">India's certification framework spans electronics, food, medical devices, packaging, labelling, and waste management — mandatory for every importer, brand, and marketplace seller. We manage the full process end-to-end so your products can be listed and sold without interruption.</p>
+    </div>
+    <div class="comp-tabs reveal" id="compTabs">
+      <button class="comp-tab active" onclick="filterC('all',this)">All</button>
+      <button class="comp-tab" onclick="filterC('product',this)">Product Certifications</button>
+      <button class="comp-tab" onclick="filterC('food',this)">Food &amp; Health</button>
+      <button class="comp-tab" onclick="filterC('telecom',this)">Electronics &amp; Wireless</button>
+      <button class="comp-tab" onclick="filterC('env',this)">Environment &amp; EPR</button>
+      <button class="comp-tab" onclick="filterC('trade',this)">Trade &amp; Export</button>
+    </div>
+    <div class="reg-grid" id="regGrid">
+      <article class="reg-card reveal" data-cat="telecom"><span class="reg-num">01</span><div class="reg-logo" style="background:#0057FF">BIS</div><h3 class="rt">BIS / CRS Certification</h3><p class="rt-sub">Mandatory for 400+ product categories. ISI Mark, CRS for electronics, and Scheme X for foreign manufacturers importing into India.</p><div class="rt-tags"><span class="rt-tag">ISI Mark</span><span class="rt-tag">CRS</span><span class="rt-tag">Scheme X</span><span class="rt-tag">Electronics</span></div></article>
+      <article class="reg-card reveal d1" data-cat="food"><span class="reg-num">02</span><div class="reg-logo" style="background:#D97706">FSSAI</div><h3 class="rt">FSSAI Registration &amp; License</h3><p class="rt-sub">Mandatory for all food businesses, importers, and marketplace sellers. Central, State, and Basic licensing including import NOC and labelling compliance.</p><div class="rt-tags"><span class="rt-tag g">Central License</span><span class="rt-tag g">Import NOC</span><span class="rt-tag g">Labelling</span></div></article>
+      <article class="reg-card reveal d2" data-cat="food"><span class="reg-num">03</span><div class="reg-logo" style="background:#059669">CDSCO</div><h3 class="rt">CDSCO — Medical Devices &amp; Cosmetics</h3><p class="rt-sub">Class A–D medical device registration, cosmetics license, pharmaceuticals, and import license. Mandatory for import and sale in India.</p><div class="rt-tags"><span class="rt-tag g">Medical Devices</span><span class="rt-tag g">Cosmetics</span><span class="rt-tag g">Import License</span></div></article>
+      <article class="reg-card reveal d3" data-cat="telecom"><span class="reg-num">04</span><div class="reg-logo" style="background:#7C3AED">WPC</div><h3 class="rt">WPC Equipment Type Approval</h3><p class="rt-sub">Mandatory for all wireless and RF devices in India — Wi-Fi, Bluetooth, Zigbee, cellular, and IoT devices under DoT's Equipment Type Approval (ETA) process.</p><div class="rt-tags"><span class="rt-tag p">ETA Approval</span><span class="rt-tag p">Wi-Fi</span><span class="rt-tag p">Bluetooth</span><span class="rt-tag p">IoT</span></div></article>
+      <article class="reg-card reveal d1" data-cat="product"><span class="reg-num">05</span><div class="reg-logo" style="background:#6D28D9">LM</div><h3 class="rt">Legal Metrology &amp; Labelling</h3><p class="rt-sub">Mandatory for all packaged goods — MRP, net quantity, importer name and address, country of origin. The #1 cause of marketplace listing suppression — fixed by <a href="#productlabelguru" style="color:var(--blue);text-decoration:none;font-weight:600">ProductLabelGuru</a>.</p><div class="rt-tags"><span class="rt-tag p">MRP Labelling</span><span class="rt-tag p">Importer Reg.</span><span class="rt-tag p">Packaged Goods</span></div></article>
+      <article class="reg-card gr2 reveal d2" data-cat="env"><span class="reg-num">06</span><div class="reg-logo" style="background:#059669">EPR</div><h3 class="rt">Extended Producer Responsibility</h3><p class="rt-sub">Mandatory for producers, importers, and brand owners of e-waste, battery, plastic packaging — registration, annual targets, and return filing on MoEF&amp;CC portal.</p><div class="rt-tags"><span class="rt-tag g">E-Waste</span><span class="rt-tag g">Battery</span><span class="rt-tag g">Plastics</span></div></article>
+      <article class="reg-card gr2 reveal d3" data-cat="env"><span class="reg-num">07</span><div class="reg-logo" style="background:#065F46">BEE</div><h3 class="rt">BEE Star Rating</h3><p class="rt-sub">Mandatory energy efficiency star labelling for ACs, refrigerators, washing machines, TVs, and fans. Required for sale on Indian marketplaces.</p><div class="rt-tags"><span class="rt-tag g">Star Rating</span><span class="rt-tag g">Appliances</span><span class="rt-tag g">Energy Eff.</span></div></article>
+      <article class="reg-card reveal" data-cat="trade"><span class="reg-num">08</span><div class="reg-logo" style="background:#92400E">DGFT</div><h3 class="rt">DGFT — IEC &amp; Export Licences</h3><p class="rt-sub">IEC registration, RCMC, SCOMET compliance, RoDTEP and export scheme advisory under India's Foreign Trade Policy for exporters and importers.</p><div class="rt-tags"><span class="rt-tag a">IEC</span><span class="rt-tag a">RCMC</span><span class="rt-tag a">SCOMET</span><span class="rt-tag a">RoDTEP</span></div></article>
+      <article class="reg-card reveal d1" data-cat="food"><span class="reg-num">09</span><div class="reg-logo" style="background:#7C2D12">AYUSH</div><h3 class="rt">AYUSH Licensing</h3><p class="rt-sub">Licensing for Ayurvedic, Unani, Siddha, and homeopathic products. Import NOC and manufacturing license for traditional medicine and herbal products.</p><div class="rt-tags"><span class="rt-tag">Ayurveda</span><span class="rt-tag">Herbal</span><span class="rt-tag">Import NOC</span></div></article>
+      <article class="reg-card reveal d2" data-cat="env"><span class="reg-num">10</span><div class="reg-logo" style="background:#1F2937">PESO</div><h3 class="rt">PESO Approval</h3><p class="rt-sub">For hazardous products — pressurized gas, flammable liquids, aerosols, gas cylinders, and lighters under the Petroleum &amp; Explosives Safety Organisation.</p><div class="rt-tags"><span class="rt-tag">Hazardous</span><span class="rt-tag">Aerosols</span><span class="rt-tag">Gas Cylinders</span></div></article>
+      <article class="reg-card reveal d3" data-cat="trade"><span class="reg-num">11</span><div class="reg-logo" style="background:#115E59">APEDA</div><h3 class="rt">APEDA / MPEDA Export Certification</h3><p class="rt-sub">Mandatory registrations and certifications for agricultural, processed food, marine, and horticultural exports — RCMC, quality marks, and phytosanitary certificates.</p><div class="rt-tags"><span class="rt-tag a">APEDA RCMC</span><span class="rt-tag a">Agri Exports</span><span class="rt-tag a">Marine</span></div></article>
     </div>
   </div>
 </section>
