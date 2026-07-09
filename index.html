@@ -9,6 +9,7 @@
 <meta name="author" content="LaRo Advisors (OPC) Private Limited">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.launchrocket.in/">
+<link rel="alternate" type="application/rss+xml" title="Launch Rocket — Insights &amp; Regulatory Updates" href="https://www.launchrocket.in/feed.xml">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Launch Rocket — India Certification & E-Commerce Enablement">
 <meta property="og:description" content="BIS, FSSAI, CDSCO, Legal Metrology & EPR for India + full e-commerce enablement — marketplace growth, ProductLabelGuru label compliance, and RocketProof compliant reviews. FCC & CE for exporters.">
@@ -680,6 +681,8 @@ footer{background:#060E1F;color:rgba(255,255,255,.48);padding:56px 0 26px}
       <a href="#contact" class="btn-s reveal d2" style="flex-shrink:0">All Articles →</a>
     </div>
 
+    <div class="follow-inline reveal"><span class="fi-lbl">Follow us</span><a class="li" href="https://www.linkedin.com/company/launchrocketadvisors/" target="_blank" rel="noopener" aria-label="Launch Rocket on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4v16h-4V8zm7.5 0h3.8v2.2h.05c.53-1 1.83-2.2 3.77-2.2 4.03 0 4.78 2.65 4.78 6.1V24h-4v-7.1c0-1.7-.03-3.9-2.38-3.9-2.38 0-2.74 1.86-2.74 3.78V24h-4V8z"/></svg></a><a class="ig" href="https://www.instagram.com/launchrocket.in" target="_blank" rel="noopener" aria-label="Launch Rocket on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.38C1.36 2.67.94 3.34.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.8.72 1.47 1.38 2.13.66.66 1.33 1.08 2.12 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.8-.3 1.47-.72 2.13-1.38.66-.66 1.08-1.33 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.3-.8-.72-1.47-1.38-2.13-.66-.66-1.33-1.08-2.13-1.38-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1018.16 12 6.16 6.16 0 0012 5.84zM12 16a4 4 0 114-4 4 4 0 01-4 4zm6.4-11.85a1.44 1.44 0 11-1.44-1.44 1.44 1.44 0 011.44 1.44z"/></svg></a></div>
+
     <!-- Featured -->
     <div class="blog-feat reveal">
       <div class="bf-panel">
@@ -775,10 +778,12 @@ footer{background:#060E1F;color:rgba(255,255,255,.48);padding:56px 0 26px}
         <div style="font-family:var(--fd);font-weight:700;font-size:17px;color:white;margin-bottom:4px">Get compliance alerts &amp; regulatory updates</div>
         <div style="font-size:13px;color:rgba(255,255,255,.45)">India certification updates · Labelling &amp; marketplace policy · E-commerce growth guides — directly in your inbox.</div>
       </div>
-      <div style="display:flex;gap:9px;flex-wrap:wrap">
-        <input type="email" class="news-inp" placeholder="your@email.com">
-        <button class="btn-p">Subscribe Free</button>
-      </div>
+      <form class="sub-form" id="subForm" novalidate>
+        <input type="email" class="news-inp" id="subEmail" name="email" placeholder="your@email.com" required aria-label="Email address" autocomplete="email">
+        <input type="text" class="hp-field" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn-p" type="submit" id="subBtn">Subscribe Free</button>
+        <div class="sub-msg" id="subMsg" role="status" aria-live="polite"></div>
+      </form>
     </div>
   </div>
 </section>
@@ -868,6 +873,51 @@ footer{background:#060E1F;color:rgba(255,255,255,.48);padding:56px 0 26px}
   </div>
 </section>
 
+<style>
+.follow-inline{display:flex;align-items:center;gap:9px;margin-top:16px;flex-wrap:wrap}
+.follow-inline .fi-lbl{font-family:var(--fd);font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.follow-inline a{width:34px;height:34px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);color:var(--muted);transition:.2s;text-decoration:none}
+.follow-inline a svg{width:16px;height:16px;fill:currentColor}
+.follow-inline a.li:hover{background:#0A66C2;color:#fff;border-color:#0A66C2}
+.follow-inline a.ig:hover{background:#DD2A7B;color:#fff;border-color:#DD2A7B}
+.foot-social{display:flex;gap:9px;margin:16px 0 6px}
+.foot-social a{width:36px;height:36px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.55);transition:.2s}
+.foot-social a svg{width:17px;height:17px;fill:currentColor}
+.foot-social a.li:hover{background:#0A66C2;color:#fff;border-color:#0A66C2}
+.foot-social a.ig:hover{background:#DD2A7B;color:#fff;border-color:#DD2A7B}
+.sub-form{display:flex;gap:9px;flex-wrap:wrap;align-items:flex-start}
+.sub-msg{width:100%;font-size:12.5px;font-family:var(--fd);font-weight:600;margin-top:9px;display:none;line-height:1.5}
+.sub-msg.show{display:block}
+.sub-msg.ok{color:#6EE7A8}.sub-msg.err{color:#FCA5A5}
+.news-inp.invalid{border-color:#F87171}
+button.btn-p[disabled]{opacity:.6;cursor:default}
+.hp-field{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+</style>
+<script>
+(function(){
+  var NEWSLETTER_ENDPOINT = ""; /* Paste your MailerLite / Mailchimp / Buttondown embedded-form action URL here to capture subscribers + trigger the RSS auto-email. */
+  var f=document.getElementById('subForm'); if(!f) return;
+  var email=document.getElementById('subEmail'), btn=document.getElementById('subBtn'), msg=document.getElementById('subMsg'), hp=f.querySelector('[name=website]');
+  function show(t,ok){msg.textContent=t;msg.className='sub-msg show '+(ok?'ok':'err');}
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(hp&&hp.value){return;}
+    var v=(email.value||'').trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){email.classList.add('invalid');show('Please enter a valid email address.',false);return;}
+    email.classList.remove('invalid');
+    var orig=btn.textContent; btn.disabled=true; btn.textContent='Subscribing…';
+    function ok(){show("You're subscribed! We'll email you whenever we publish something new.",true);f.reset();btn.disabled=false;btn.textContent=orig;}
+    function fail(){show("Couldn't reach the server — email care@launchrocket.in and we'll add you.",false);btn.disabled=false;btn.textContent=orig;}
+    if(NEWSLETTER_ENDPOINT){
+      var body=new FormData();body.append('email',v);body.append('fields[email]',v);body.append('EMAIL',v);
+      fetch(NEWSLETTER_ENDPOINT,{method:'POST',body:body,mode:'no-cors'}).then(ok).catch(fail);
+    }else{
+      window.location.href='mailto:care@launchrocket.in?subject='+encodeURIComponent('Newsletter subscription')+'&body='+encodeURIComponent('Please subscribe this email to Launch Rocket updates: '+v);
+      ok();
+    }
+  });
+})();
+</script>
 <!-- FOOTER -->
 <footer>
   <div class="container">
@@ -879,6 +929,8 @@ footer{background:#060E1F;color:rgba(255,255,255,.48);padding:56px 0 26px}
         </a>
         <p class="fd">India certification and e-commerce enablement — helping brands get certified, get listed, and grow compliantly across India's marketplaces, with FCC &amp; CE support for exporters.</p>
         <p class="fcin">LaRo Advisors (OPC) Private Limited<br>CIN: U70200HR2026OPC145560</p>
+        <div class="foot-social"><a class="li" href="https://www.linkedin.com/company/launchrocketadvisors/" target="_blank" rel="noopener" aria-label="Launch Rocket on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4v16h-4V8zm7.5 0h3.8v2.2h.05c.53-1 1.83-2.2 3.77-2.2 4.03 0 4.78 2.65 4.78 6.1V24h-4v-7.1c0-1.7-.03-3.9-2.38-3.9-2.38 0-2.74 1.86-2.74 3.78V24h-4V8z"/></svg></a><a class="ig" href="https://www.instagram.com/launchrocket.in" target="_blank" rel="noopener" aria-label="Launch Rocket on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.38C1.36 2.67.94 3.34.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.8.72 1.47 1.38 2.13.66.66 1.33 1.08 2.12 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.8-.3 1.47-.72 2.13-1.38.66-.66 1.08-1.33 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.3-.8-.72-1.47-1.38-2.13-.66-.66-1.33-1.08-2.13-1.38-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1018.16 12 6.16 6.16 0 0012 5.84zM12 16a4 4 0 114-4 4 4 0 01-4 4zm6.4-11.85a1.44 1.44 0 11-1.44-1.44 1.44 1.44 0 011.44 1.44z"/></svg></a></div>
+
       </div>
       <div>
         <div class="fh">India Certification</div>
