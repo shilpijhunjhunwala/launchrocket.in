@@ -758,5 +758,49 @@ function filterC(cat,btn){
   document.querySelectorAll('#regGrid .reg-card').forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none'});
 }
 </script>
+
+<!-- If JS is unavailable the reveal elements would stay hidden — show them. -->
+<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+
+<!--
+  Motion (https://motion.dev) — progressive enhancement.
+  Loaded from the ESM CDN per the React/Vanilla quick-start. This is layered on
+  top of the existing CSS reveal + :hover system, so if the CDN fails or the
+  user prefers reduced motion, the page keeps working exactly as before.
+-->
+<script type="module">
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion) {
+    try {
+      const { animate, scroll } = await import('https://cdn.jsdelivr.net/npm/motion@12/+esm');
+
+      const hero = document.getElementById('hero');
+      const heroBg = document.querySelector('.hero-bg');
+      const heroOrb = document.querySelector('.hero-orb');
+      const hcard = document.querySelector('.hcard');
+
+      // Scroll-linked parallax: the hero backdrop and accent orb drift at
+      // different rates as the hero scrolls out of view, adding depth.
+      if (typeof scroll === 'function' && hero) {
+        const range = { target: hero, offset: ['start start', 'end start'] };
+        if (heroBg) scroll(animate(heroBg, { y: [0, 110], opacity: [1, 0.55] }, { ease: 'linear' }), range);
+        if (heroOrb) scroll(animate(heroOrb, { y: [0, -70] }, { ease: 'linear' }), range);
+      }
+
+      // Gentle continuous float on the decorative coverage card. Delayed so it
+      // begins only after the CSS reveal transition has finished.
+      if (hcard) {
+        hcard.style.willChange = 'transform';
+        animate(
+          hcard,
+          { y: [0, -12, 0] },
+          { duration: 6, ease: 'easeInOut', repeat: Infinity, delay: 1.1 }
+        );
+      }
+    } catch (err) {
+      // Motion couldn't load — the site's native CSS animations remain in effect.
+    }
+  }
+</script>
 </body>
 </html>
