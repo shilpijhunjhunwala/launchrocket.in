@@ -31,7 +31,8 @@ const DEFAULT_MODEL = "gemini-2.5-flash";
 const ALLOWED_CHANNELS = ["Import to India", "Export from India", "Domestic"];
 const DEFAULT_ALLOWED_ORIGINS = [
   "https://www.launchrocket.in",
-  "https://launchrocket.in"
+  "https://launchrocket.in",
+  "https://launchrocket-in.vercel.app"
 ];
 
 /* ------------------------------------------------------------------ *

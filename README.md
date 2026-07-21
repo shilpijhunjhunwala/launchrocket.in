@@ -56,7 +56,7 @@ vercel --prod
 | `GEMINI_API_KEY` | ✅ | Google AI Studio key — get one free at [aistudio.google.com/apikey](https://aistudio.google.com/apikey). Server-side only. (`GOOGLE_API_KEY` also accepted.) |
 | `GEMINI_MODEL` | – | Model id; defaults to `gemini-2.5-flash`. |
 | `TURNSTILE_SECRET` | – | Enables Cloudflare Turnstile verification when set. |
-| `ALLOWED_ORIGINS` | – | Comma-separated CORS allowlist override (default: `https://www.launchrocket.in,https://launchrocket.in`). |
+| `ALLOWED_ORIGINS` | – | Comma-separated CORS allowlist override (default: `https://www.launchrocket.in,https://launchrocket.in,https://launchrocket-in.vercel.app`). |
 | `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | – | Enables the ~5 classifications/day per-IP limit (Upstash Redis — free tier, one click from the Vercel Marketplace). Without it, Turnstile still gates abuse. |
 
 The function calls the Google Gemini `generateContent` API with `temperature 0.2`, JSON response mode, `maxOutputTokens 2048`, **no Google Search grounding** (the free tier is explicitly indicative), and an inline image part when provided. It parses JSON defensively (strips code fences, retries once) and returns a normalised object matching the tool contract. **Product inputs are not persisted** — only an anonymised daily count is written (when Redis is configured).
@@ -69,11 +69,13 @@ In `hs-classification/index.html`, the `window.LR_HSC` block controls the tool:
 
 ```js
 window.LR_HSC = {
-  endpoint: "https://api.launchrocket.in/api/classify",  // Vercel function
+  endpoint: "https://launchrocket-in.vercel.app/api/classify",  // Vercel function
   turnstileSiteKey: "",   // paste your Turnstile SITE key to show the widget
   analyticsEndpoint: ""   // optional beacon URL for events (else dataLayer + CustomEvent only)
 };
 ```
+
+> Currently pointed at the Vercel deployment URL. If you later add a custom subdomain (e.g. `api.launchrocket.in`) in the Vercel project, change this `endpoint` and the page's CSP `connect-src` host to match.
 
 To enable Turnstile end-to-end: set `turnstileSiteKey` here **and** `TURNSTILE_SECRET` on Vercel. The Turnstile script auto-loads only when a site key is present.
 
