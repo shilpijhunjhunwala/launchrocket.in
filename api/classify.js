@@ -26,7 +26,7 @@ const MAX_URLTEXT = 400;
 const MAX_IMAGE_BYTES = 4 * 1024 * 1024; // 4 MB
 const DAILY_LIMIT = 5;
 const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models/";
-const DEFAULT_MODEL = "gemini-2.5-flash";
+const DEFAULT_MODEL = "gemini-2.0-flash-lite";
 
 const ALLOWED_CHANNELS = ["Import to India", "Export from India", "Domestic"];
 const DEFAULT_ALLOWED_ORIGINS = [
@@ -319,7 +319,16 @@ async function callGemini(apiKey, model, parts) {
 // gemini-2.0-flash almost always is.
 function modelChain() {
   const primary = process.env.GEMINI_MODEL || DEFAULT_MODEL;
-  const chain = [primary, "gemini-2.0-flash", "gemini-2.5-flash", "gemini-flash-latest"];
+  // "-lite" models have separate, more generous free-tier quotas; "-latest"
+  // aliases stay valid for new keys (the plain 2.5-flash alias does not).
+  const chain = [
+    primary,
+    "gemini-2.0-flash-lite",
+    "gemini-flash-lite-latest",
+    "gemini-2.5-flash-lite",
+    "gemini-flash-latest",
+    "gemini-2.0-flash"
+  ];
   return chain.filter((m, i) => m && chain.indexOf(m) === i);
 }
 
