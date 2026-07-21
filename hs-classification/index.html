@@ -114,6 +114,9 @@ h3{font-family:var(--fd)}
 .hp-dot{width:8px;height:8px;background:var(--blue);border-radius:50%;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,87,255,.4)}50%{box-shadow:0 0 0 12px rgba(0,87,255,0)}}
 .hp-txt{font-family:var(--fd);font-size:11px;font-weight:600;color:var(--blue);letter-spacing:.06em}
+.hero-brand{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.hb-name{font-family:var(--fd);font-weight:800;font-size:clamp(24px,3vw,32px);letter-spacing:-.02em;color:var(--blue);line-height:1}
+.hb-by{font-family:var(--fd);font-weight:600;font-size:12.5px;letter-spacing:.02em;color:var(--muted)}
 .hero-desc{font-size:17px;color:var(--ink2);line-height:1.74;max-width:640px;margin-bottom:30px}
 .hero-acts{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:34px}
 .hero-meta{display:flex;flex-wrap:wrap;gap:8px}
@@ -452,9 +455,10 @@ footer{background:#060E1F;color:rgba(255,255,255,.48);padding:56px 0 26px}
 <header class="hero" id="top">
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="container">
-    <div class="hero-pill reveal"><div class="hp-dot"></div><span class="hp-txt">HS CLASSIFICATION &bull; DUTY INTELLIGENCE &bull; INDIA-FIRST</span></div>
+    <div class="hero-pill reveal"><div class="hp-dot"></div><span class="hp-txt">TARIFFPROOF &bull; HS CLASSIFICATION &bull; DUTY INTELLIGENCE</span></div>
+    <div class="hero-brand reveal d1"><span class="hb-name">TariffProof</span><span class="hb-by">by Launch Rocket</span></div>
     <h1 class="reveal d1">One code decides <span class="bl">everything.</span></h1>
-    <p class="hero-desc reveal d2">AI-assisted, expert-signed HS classification for India — the duty stack, savings routes, compliance flags and an audit-ready reasoning trail on every SKU. India-first, and extendable to your multi-country import and export lanes.</p>
+    <p class="hero-desc reveal d2"><strong>TariffProof</strong> is Launch Rocket's HS Classification &amp; Duty Intelligence service — AI-assisted, expert-signed classification for India, with the duty stack, savings routes, compliance flags and an audit-ready reasoning trail on every SKU. India-first, and extendable to your multi-country import and export lanes.</p>
     <div class="hero-acts reveal d3">
       <a href="#tool" class="btn-p">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
