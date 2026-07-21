@@ -98,6 +98,15 @@ export default async function handler(req, res) {
   applyCors(res, origin);
 
   if (req.method === "OPTIONS") { res.status(204).end(); return; }
+
+  // Lightweight diagnostic: GET /api/classify?diag=1 — open in a browser to
+  // check config + ping Gemini. Reports NO secrets (only whether a key is set
+  // and the upstream status/message). Remove/ignore once things are working.
+  if (req.method === "GET") {
+    const wantDiag = (req.query && req.query.diag) || /[?&]diag=1\b/.test(req.url || "");
+    if (wantDiag) return runDiag(res);
+    return send(res, 405, { error: "Method not allowed." });
+  }
   if (req.method !== "POST") { return send(res, 405, { error: "Method not allowed." }); }
 
   // Parse body
@@ -139,20 +148,24 @@ export default async function handler(req, res) {
     return send(res, 503, { error: "The classifier isn't configured yet. Please email care@launchrocket.in and we'll classify it for you." });
   }
 
-  // ---- build + call Gemini (parse-only, one retry) ----
-  const model = process.env.GEMINI_MODEL || DEFAULT_MODEL;
+  // ---- build + call Gemini, trying the primary model then a safe fallback ----
   const parts = buildParts(input);
+  const models = modelChain();
 
-  let parsed = null;
-  for (let attempt = 0; attempt < 2 && !parsed; attempt++) {
+  let parsed = null, lastErr = "";
+  for (let i = 0; i < models.length && !parsed; i++) {
     try {
-      const raw = await callGemini(apiKey, model, parts);
+      const raw = await callGemini(apiKey, models[i], parts);
       parsed = extractJSON(raw);
-    } catch (e) { /* retry once */ }
+      if (!parsed) lastErr = "empty/unparseable response from " + models[i];
+    } catch (e) { lastErr = (e && e.message) ? e.message : String(e); }
   }
 
   if (!parsed) {
-    return send(res, 502, { error: "The classifier had trouble reading that product. Please add a little more detail and try again, or email care@launchrocket.in." });
+    return send(res, 502, {
+      error: "The classifier had trouble reading that product. Please add a little more detail and try again, or email care@launchrocket.in.",
+      detail: String(lastErr).slice(0, 300)
+    });
   }
 
   return send(res, 200, normalize(parsed));
@@ -299,6 +312,51 @@ async function callGemini(apiKey, model, parts) {
     text = cand.content.parts.filter(p => typeof p.text === "string").map(p => p.text).join("");
   }
   return text;
+}
+
+// Primary model first, then widely-available fallbacks (deduped, order kept).
+// If gemini-2.5-flash (or its thinking config) isn't available on the key,
+// gemini-2.0-flash almost always is.
+function modelChain() {
+  const primary = process.env.GEMINI_MODEL || DEFAULT_MODEL;
+  const chain = [primary, "gemini-2.0-flash", "gemini-2.5-flash", "gemini-flash-latest"];
+  return chain.filter((m, i) => m && chain.indexOf(m) === i);
+}
+
+/* ================================================================== *
+ *  Diagnostics — GET ?diag=1 (no secrets; reports config + Gemini ping)
+ * ================================================================== */
+async function runDiag(res) {
+  const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+  const out = {
+    ok: false,
+    hasKey: !!apiKey,
+    keySource: process.env.GEMINI_API_KEY ? "GEMINI_API_KEY" : (process.env.GOOGLE_API_KEY ? "GOOGLE_API_KEY" : null),
+    configuredModel: process.env.GEMINI_MODEL || DEFAULT_MODEL,
+    models: []
+  };
+  if (!apiKey) { out.note = "No Gemini key found. Add GEMINI_API_KEY in Vercel → Settings → Environment Variables, then redeploy."; return send(res, 200, out); }
+  for (const m of modelChain()) out.models.push(await geminiPing(apiKey, m));
+  out.ok = out.models.some(x => x.ok);
+  out.note = out.ok
+    ? "At least one model works. The classifier will use the first working model in the list."
+    : "No model responded 200. Check the messages below (common: 404 = model name not enabled on this key/API version; 429 = free-tier quota; 400 = bad request/key).";
+  return send(res, 200, out);
+}
+
+async function geminiPing(apiKey, model) {
+  const url = GEMINI_BASE + encodeURIComponent(model) + ":generateContent";
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-goog-api-key": apiKey },
+      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: "Reply with the single word OK." }] }], generationConfig: { temperature: 0, maxOutputTokens: 10 } })
+    });
+    const txt = await res.text();
+    let message = txt.slice(0, 180);
+    try { const j = JSON.parse(txt); if (j.error && j.error.message) message = j.error.message; else if (j.candidates) message = "ok"; } catch (e) {}
+    return { model, status: res.status, ok: res.ok, message: String(message).slice(0, 180) };
+  } catch (e) { return { model, status: 0, ok: false, message: (e && e.message) || String(e) }; }
 }
 
 /* ================================================================== *
