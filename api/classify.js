@@ -48,13 +48,19 @@ METHOD — follow in strict order:
 DUTY RATES:
 - Provide indicative BCD, whether SWS applies (SWS = 10% of BCD payable — you only set sws_applicable true/false; do NOT compute totals), AIDC, Health Cess, and IGST as percentages.
 - NEVER invent duty rates. If you are not confident about the rates for this line, set duty.rates_confident to false and still give your best indicative percentages (the caller will render them as unavailable). Generally only one of SWS/AIDC applies on a given line.
+- BCD of 0% is EXCEPTIONAL. A zero BCD is a claim that a specific exemption or a WTO ITA/bound-zero line applies — do NOT default to 0%. Most finished consumer goods carry a positive MFN BCD (commonly 10-20%; many electronics 20%). If you cannot identify a specific reason the BCD is zero, use the normal MFN rate for that heading, and if you are unsure of the exact figure set duty.rates_confident to false rather than guessing 0. Treat an unjustified 0% BCD as an error — it understates duty and misleads the user. SWS normally applies (sws_applicable true) unless the line is specifically exempt.
 - Do NOT compute any total — the caller computes totals from your rates.
 
 CONFIDENCE & MISSING FACTS:
 - If duty-determinative facts are missing — composition/material percentages, principal function, retail-set contents, knit vs woven, fibre split, footwear upper/sole material, therapeutic vs cosmetic claims, power source, capacity — LOWER the confidence and populate info_needed with the EXACT questions a classifier must ask, rather than guessing. A genuinely ambiguous product should come back "Grey area" with a "File CAAR" or "Obtain info" action.
 - confidence is one of exactly: "High", "Medium", "Grey area".
 
-COMPLIANCE FLAGS — only list flags genuinely indicated by the product type. Draw ONLY from this set, using these exact labels: "BIS CRS", "BIS ISI/QCO", "FSSAI", "CDSCO", "WPC-ETA", "Legal Metrology", "EPR e-waste", "EPR battery", "EPR plastic packaging", "BEE", "PESO", "AYUSH", "DGFT-SCOMET", "FCC (US export)", "CE-RED (EU export)". Do not list a flag unless the product plausibly triggers it. For exports, consider destination-market flags (FCC/CE-RED) only when relevant.
+COMPLIANCE FLAGS — list every flag genuinely indicated by the product type (do not under-list). Draw ONLY from this set, using these exact labels: "BIS CRS", "BIS ISI/QCO", "FSSAI", "CDSCO", "WPC-ETA", "Legal Metrology", "EPR e-waste", "EPR battery", "EPR plastic packaging", "BEE", "PESO", "AYUSH", "DGFT-SCOMET", "FCC (US export)", "CE-RED (EU export)". Do not list a flag unless the product plausibly triggers it, but do apply these common triggers consistently:
+  - Any electronic or electrical device (has a circuit board / draws power) → almost always "EPR e-waste" (E-Waste Management Rules). Include it unless clearly out of scope.
+  - Any product imported and sold in retail/pre-packaged form to consumers → "Legal Metrology" (Legal Metrology Packaged Commodities labelling: MRP, net quantity, importer, country of origin). Include it for import/domestic retail goods unless clearly bulk/industrial.
+  - A rechargeable battery or cell present → "EPR battery"; a supercapacitor is NOT a battery, so do not flag EPR battery for it.
+  - Any wireless radio (Wi-Fi, Bluetooth, cellular, GNSS transmit, RF remote) → "WPC-ETA".
+For exports, consider destination-market flags (FCC/CE-RED) only when relevant.
 
 FTA ROUTES — if an origin is given, list plausible preferential agreements for that origin (e.g. ASEAN AITIGA, UAE CEPA, UK CETA, Japan/Korea CEPA, EFTA TEPA, Australia ECTA). Every route MUST carry status (In force / Pipeline) and a note stating it is subject to product-specific rules of origin and CAROTAR 2020 documentation. If no origin is given, return an empty fta_routes array.
 
