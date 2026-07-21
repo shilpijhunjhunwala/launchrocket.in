@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Page-specific CSP: same-origin API (connect-src 'self' → /api/classify), plus Cloudflare Turnstile widget. No API key ever reaches the browser. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self'; form-action 'self'; upgrade-insecure-requests">
+<!-- Page-specific CSP: the classifier API is a Vercel function at api.launchrocket.in (allowed in connect-src), plus the Cloudflare Turnstile widget. No API key ever reaches the browser. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self' https://api.launchrocket.in; form-action 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
 <title>HS Code Classification & Duty Intelligence for India | Launch Rocket</title>
@@ -791,7 +791,7 @@ footer{background:#060E1F;color:rgba(255,255,255,.48);padding:56px 0 26px}
 <!-- Turnstile loader (only used if a site key is configured below) -->
 <script>
   window.LR_HSC = {
-    endpoint: "/api/classify",          // same-origin serverless endpoint (Cloudflare Worker route)
+    endpoint: "https://api.launchrocket.in/api/classify",  // Vercel serverless function (api.launchrocket.in → Vercel project)
     turnstileSiteKey: "",               // set your Cloudflare Turnstile SITE key to enable the widget
     analyticsEndpoint: ""               // optional beacon endpoint for events; leave empty to only use dataLayer/CustomEvent
   };

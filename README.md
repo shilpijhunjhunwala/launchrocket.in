@@ -16,44 +16,46 @@ A SEO-optimised service page plus a **live, free single-SKU HS classifier** that
 |---|---|
 | `hs-classification/index.html` | The service page + the classifier UI (static, self-contained styles, JSON-LD). |
 | `hs-classification/app.js` | Front-end tool logic: form, image→base64, API call, five-block renderer, **client-side duty maths**, cross-sell chips, analytics. No secrets. |
-| `worker/classify.js` | Cloudflare Worker backend for `/api/classify`. Holds the Anthropic call + system prompt. **The API key lives only here.** |
-| `worker/wrangler.toml` | Worker config (routes, model var, KV binding, secret notes). |
+| `api/classify.js` | Vercel serverless function for the classifier. Holds the Anthropic call + system prompt. **The API key lives only here.** |
+| `vercel.json` | Vercel project config (function `maxDuration`, API response headers). |
 
 ### Architecture
 
-The static page is served by GitHub Pages. The classifier posts to **`/api/classify`** on the **same origin**, which keeps the page CSP at `connect-src 'self'`. That path is routed to a **Cloudflare Worker** (the domain must be proxied through Cloudflare; everything except `/api/classify*` falls through to GitHub Pages). The browser never sees the Anthropic key.
+The marketing site stays on **GitHub Pages** (`launchrocket.in`). The classifier API is a **Vercel serverless function** deployed as a small, separate project and given the custom domain **`api.launchrocket.in`**. The page calls `https://api.launchrocket.in/api/classify` cross-origin; the function returns CORS headers for the `launchrocket.in` origins, and the page CSP allows exactly that host (`connect-src 'self' https://api.launchrocket.in`). The browser never sees the Anthropic key.
 
-If `/api/classify` is not yet deployed, the tool degrades gracefully: it shows a friendly error inviting the visitor to email `care@launchrocket.in`.
+If the API isn't reachable yet, the tool degrades gracefully: it shows a friendly error inviting the visitor to email `care@launchrocket.in`.
 
-### Backend setup — Cloudflare Worker
+### Backend setup — Vercel
 
-Prereqs: the `launchrocket.in` DNS zone on Cloudflare, and `npx wrangler login`.
+Deploy `api/classify.js` as its own Vercel project (it serves only the API; the site itself remains on GitHub Pages).
 
 ```bash
-cd worker
+npm i -g vercel        # or use npx
+vercel login
+vercel                 # first deploy → creates the project (accept defaults)
 
-# 1. (optional) rate-limit store — anonymised per-IP daily counts (~5/day)
-npx wrangler kv namespace create RATE_LIMIT_KV
-#   → paste the printed id into wrangler.toml under [[kv_namespaces]] and uncomment.
-
-# 2. secrets (never committed)
-npx wrangler secret put ANTHROPIC_API_KEY     # required
-npx wrangler secret put TURNSTILE_SECRET      # optional — enables Cloudflare Turnstile
-
-# 3. uncomment the [[routes]] blocks in wrangler.toml, then deploy
-npx wrangler deploy
+# set the key + options (Production), then redeploy:
+vercel env add ANTHROPIC_API_KEY production      # required — paste the key
+vercel env add TURNSTILE_SECRET production       # optional — enables Turnstile
+vercel env add ANTHROPIC_MODEL production        # optional — defaults to claude-sonnet-5
+vercel --prod
 ```
 
-**Environment variables / secrets**
+**Point `api.launchrocket.in` at the project** (one-time): in the Vercel project → **Settings → Domains**, add `api.launchrocket.in`; then add the DNS record it shows (a `CNAME api → cname.vercel-dns.com`) at your DNS provider. Once it resolves, the front-end works with no code change.
 
-| Name | Kind | Required | Purpose |
-|---|---|---|---|
-| `ANTHROPIC_API_KEY` | secret | ✅ | Anthropic Messages API key. Server-side only. |
-| `ANTHROPIC_MODEL` | var (`wrangler.toml`) | – | Model id; defaults to `claude-sonnet-5`. |
-| `TURNSTILE_SECRET` | secret | – | Enables Cloudflare Turnstile verification when set. |
-| `RATE_LIMIT_KV` | KV binding | – | Enables the ~5 classifications/day per-IP limit. |
+> Prefer the raw `*.vercel.app` URL instead of a subdomain? Change two lines: `endpoint` in `hs-classification/index.html` and the `connect-src` host in that page's CSP.
 
-The Worker calls the Anthropic Messages API with `temperature 0.2`, `max_tokens 1800`, **no web-search tool** (the free tier is explicitly indicative), and an image block when provided. It parses JSON defensively (strips code fences, retries once), and returns a normalised object matching the tool contract. **Product inputs are not persisted** — only an anonymised daily count is written to KV.
+**Environment variables**
+
+| Name | Required | Purpose |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | ✅ | Anthropic Messages API key. Server-side only. |
+| `ANTHROPIC_MODEL` | – | Model id; defaults to `claude-sonnet-5`. |
+| `TURNSTILE_SECRET` | – | Enables Cloudflare Turnstile verification when set. |
+| `ALLOWED_ORIGINS` | – | Comma-separated CORS allowlist override (default: `https://www.launchrocket.in,https://launchrocket.in`). |
+| `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | – | Enables the ~5 classifications/day per-IP limit (Upstash Redis — free tier, one click from the Vercel Marketplace). Without it, Turnstile still gates abuse. |
+
+The function calls the Anthropic Messages API with `temperature 0.2`, `max_tokens 1800`, **no web-search tool** (the free tier is explicitly indicative), and an image block when provided. It parses JSON defensively (strips code fences, retries once) and returns a normalised object matching the tool contract. **Product inputs are not persisted** — only an anonymised daily count is written (when Redis is configured).
 
 ### Front-end config
 
@@ -61,13 +63,13 @@ In `hs-classification/index.html`, the `window.LR_HSC` block controls the tool:
 
 ```js
 window.LR_HSC = {
-  endpoint: "/api/classify",   // same-origin Worker route
-  turnstileSiteKey: "",        // paste your Turnstile SITE key to show the widget
-  analyticsEndpoint: ""        // optional beacon URL for events (else dataLayer + CustomEvent only)
+  endpoint: "https://api.launchrocket.in/api/classify",  // Vercel function
+  turnstileSiteKey: "",   // paste your Turnstile SITE key to show the widget
+  analyticsEndpoint: ""   // optional beacon URL for events (else dataLayer + CustomEvent only)
 };
 ```
 
-To enable Turnstile end-to-end: set `turnstileSiteKey` here **and** `TURNSTILE_SECRET` on the Worker. The Turnstile script auto-loads only when a site key is present.
+To enable Turnstile end-to-end: set `turnstileSiteKey` here **and** `TURNSTILE_SECRET` on Vercel. The Turnstile script auto-loads only when a site key is present.
 
 ### Analytics events
 
@@ -80,7 +82,7 @@ python3 -m http.server 8000
 # open http://localhost:8000/hs-classification/
 ```
 
-Without a running Worker the tool shows the friendly error path. To exercise the **renderer** with the five block types offline, see `worker/README-testing` in the commit notes / open `hs-classification/index.html` and paste sample payloads via the console helper `window.__lrRender(sample)` (available in preview).
+Without a deployed API the tool shows the friendly error path. To exercise the **renderer** with the five block types offline, open the page and paste a sample payload into the console helper: `window.__lrRender(sampleJson, { name: "…", channel: "Import to India", unit_price: 1500 })`. `window.__lrComputeDuty(dutyObj, price)` returns the computed duty totals.
 
 ### Legal
 

@@ -1,18 +1,26 @@
 /**
  * Launch Rocket — HS Classification & Duty Intelligence
- * Cloudflare Worker backend for the free single-SKU classifier.
+ * Vercel serverless function for the free single-SKU classifier.
  *
- * Route (recommended, same-origin so the page CSP stays `connect-src 'self'`):
- *     launchrocket.in/api/classify   ->  this Worker
+ * Deploy target: a Vercel project that serves ONLY this API (the marketing
+ * site stays on GitHub Pages). Give the project the custom domain
+ *     api.launchrocket.in
+ * so the browser calls  https://api.launchrocket.in/api/classify  cross-origin.
+ * CORS below allows the launchrocket.in origins.
  *
- * Bindings / secrets (see README):
- *   - ANTHROPIC_API_KEY   (secret, required)   — never exposed to the browser
- *   - ANTHROPIC_MODEL     (var, optional)       — defaults to a current Sonnet-class model
- *   - TURNSTILE_SECRET    (secret, optional)    — enables Cloudflare Turnstile verification
- *   - RATE_LIMIT_KV       (KV namespace, optional) — enables ~5 classifications/day per IP
+ * Environment variables (set in the Vercel project → Settings → Environment Variables):
+ *   - ANTHROPIC_API_KEY   (required)   — Anthropic Messages API key. Server-side only.
+ *   - ANTHROPIC_MODEL     (optional)   — defaults to a current Sonnet-class model.
+ *   - TURNSTILE_SECRET    (optional)   — enables Cloudflare Turnstile verification.
+ *   - ALLOWED_ORIGINS     (optional)   — comma-separated CORS allowlist override.
+ *
+ * Rate limiting: Vercel functions are stateless, so per-IP daily limiting needs
+ * a shared store. If UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN are set
+ * (Upstash Redis — free tier, one click from the Vercel Marketplace) the ~5/day
+ * limit is enforced; otherwise it is skipped (Turnstile still gates abuse).
  *
  * Privacy: product inputs are used only to produce the single response and are
- * NOT persisted. Only an anonymised per-IP daily COUNT is written to KV.
+ * NOT persisted. Only an anonymised per-IP daily COUNT is written (when Redis is set).
  */
 
 const MAX_DESC = 2000;
@@ -25,6 +33,10 @@ const ANTHROPIC_VERSION = "2023-06-01";
 const DEFAULT_MODEL = "claude-sonnet-5";
 
 const ALLOWED_CHANNELS = ["Import to India", "Export from India", "Domestic"];
+const DEFAULT_ALLOWED_ORIGINS = [
+  "https://www.launchrocket.in",
+  "https://launchrocket.in"
+];
 
 /* ------------------------------------------------------------------ *
  *  Classifier system prompt (authored per spec — included verbatim).
@@ -81,77 +93,102 @@ OUTPUT — respond with ONLY a single valid JSON object, no markdown, no code fe
   "refusal": null
 }`;
 
-/* ------------------------------------------------------------------ */
+/* ================================================================== *
+ *  Vercel handler
+ * ================================================================== */
+export default async function handler(req, res) {
+  const origin = req.headers.origin || "";
+  applyCors(res, origin);
 
-export default {
-  async fetch(request, env, ctx) {
-    if (request.method === "OPTIONS") return preflight();
-    if (request.method !== "POST") return json({ error: "Method not allowed." }, 405);
+  if (req.method === "OPTIONS") { res.status(204).end(); return; }
+  if (req.method !== "POST") { return send(res, 405, { error: "Method not allowed." }); }
 
-    // Parse body
-    let body;
+  // Parse body (Vercel usually parses JSON, but be defensive)
+  let body = req.body;
+  if (typeof body === "string") { try { body = JSON.parse(body); } catch (e) { return send(res, 400, { error: "Invalid request. Please send valid JSON." }); } }
+  if (!body || typeof body !== "object") {
+    body = await readJson(req).catch(() => null);
+    if (!body) return send(res, 400, { error: "Invalid request. Please send valid JSON." });
+  }
+
+  // ---- validation ----
+  const v = validate(body);
+  if (v.error) return send(res, 400, { error: v.error });
+  const input = v.value;
+
+  // ---- Turnstile (optional) ----
+  if (process.env.TURNSTILE_SECRET) {
+    const ok = await verifyTurnstile(process.env.TURNSTILE_SECRET, body.turnstile_token, clientIP(req));
+    if (!ok) return send(res, 403, { error: "Verification failed. Please complete the challenge and try again." });
+  }
+
+  // ---- rate limit (optional; needs Upstash Redis REST env) ----
+  if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
     try {
-      body = await request.json();
-    } catch (e) {
-      return json({ error: "Invalid request. Please send valid JSON." }, 400);
-    }
-
-    // ---- validation ----
-    const v = validate(body);
-    if (v.error) return json({ error: v.error }, 400);
-    const input = v.value;
-
-    // ---- Turnstile (optional) ----
-    if (env.TURNSTILE_SECRET) {
-      const ok = await verifyTurnstile(env.TURNSTILE_SECRET, body.turnstile_token, clientIP(request));
-      if (!ok) return json({ error: "Verification failed. Please complete the challenge and try again." }, 403);
-    }
-
-    // ---- rate limit (optional, needs RATE_LIMIT_KV) ----
-    if (env.RATE_LIMIT_KV) {
-      const ip = clientIP(request);
+      const ip = clientIP(req);
       const key = "rl:" + ymd() + ":" + ip;
-      let count = 0;
-      try { count = parseInt((await env.RATE_LIMIT_KV.get(key)) || "0", 10) || 0; } catch (e) {}
-      if (count >= DAILY_LIMIT) {
-        return json({
+      const count = await redisIncrWithTtl(key, 172800);
+      if (count > DAILY_LIMIT) {
+        return send(res, 429, {
           rate_limited: true,
           message: "Free limit reached — you've used today's " + DAILY_LIMIT + " free classifications. The enterprise service has no limits, and adds expert sign-off, verified rates and monitoring across your whole catalogue. Contact care@launchrocket.in."
-        }, 429);
+        });
       }
-      // increment (best-effort; anonymised count only, expires end of day+)
-      try { ctx.waitUntil(env.RATE_LIMIT_KV.put(key, String(count + 1), { expirationTtl: 172800 })); } catch (e) {}
-    }
-
-    if (!env.ANTHROPIC_API_KEY) {
-      return json({ error: "The classifier isn't configured yet. Please email care@launchrocket.in and we'll classify it for you." }, 503);
-    }
-
-    // ---- build Anthropic request ----
-    const model = env.ANTHROPIC_MODEL || DEFAULT_MODEL;
-    const userContent = buildUserContent(input);
-
-    let parsed = null, lastErr = null;
-    for (let attempt = 0; attempt < 2 && !parsed; attempt++) {
-      try {
-        const raw = await callAnthropic(env.ANTHROPIC_API_KEY, model, userContent, attempt === 1);
-        parsed = extractJSON(raw);
-      } catch (e) {
-        lastErr = e;
-      }
-    }
-
-    if (!parsed) {
-      return json({ error: "The classifier had trouble reading that product. Please add a little more detail and try again, or email care@launchrocket.in." }, 502);
-    }
-
-    return json(normalize(parsed), 200);
+    } catch (e) { /* fail open on limiter errors — Turnstile still gates abuse */ }
   }
-};
 
-/* ------------------------------------------------------------------ *
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return send(res, 503, { error: "The classifier isn't configured yet. Please email care@launchrocket.in and we'll classify it for you." });
+  }
+
+  // ---- build + call Anthropic (parse-only, one retry) ----
+  const model = process.env.ANTHROPIC_MODEL || DEFAULT_MODEL;
+  const userContent = buildUserContent(input);
+
+  let parsed = null;
+  for (let attempt = 0; attempt < 2 && !parsed; attempt++) {
+    try {
+      const raw = await callAnthropic(process.env.ANTHROPIC_API_KEY, model, userContent, attempt === 1);
+      parsed = extractJSON(raw);
+    } catch (e) { /* retry once */ }
+  }
+
+  if (!parsed) {
+    return send(res, 502, { error: "The classifier had trouble reading that product. Please add a little more detail and try again, or email care@launchrocket.in." });
+  }
+
+  return send(res, 200, normalize(parsed));
+}
+
+// Vercel: keep default body parsing on; allow up to ~6 MB for base64 images.
+export const config = { api: { bodyParser: { sizeLimit: "6mb" } } };
+
+/* ================================================================== *
+ *  CORS
+ * ================================================================== */
+function allowedOrigins() {
+  if (process.env.ALLOWED_ORIGINS) return process.env.ALLOWED_ORIGINS.split(",").map(s => s.trim()).filter(Boolean);
+  return DEFAULT_ALLOWED_ORIGINS;
+}
+function applyCors(res, origin) {
+  const list = allowedOrigins();
+  const allow = list.indexOf(origin) !== -1 ? origin : list[0];
+  res.setHeader("Access-Control-Allow-Origin", allow);
+  res.setHeader("Vary", "Origin");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
+  res.setHeader("Access-Control-Max-Age", "86400");
+}
+function send(res, status, obj) {
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.setHeader("Cache-Control", "no-store");
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.status(status).send(JSON.stringify(obj));
+}
+
+/* ================================================================== *
  *  Validation
- * ------------------------------------------------------------------ */
+ * ================================================================== */
 function validate(b) {
   if (!b || typeof b !== "object") return { error: "Empty request." };
   const name = String(b.name || "").trim();
@@ -173,15 +210,11 @@ function validate(b) {
   const origin = b.origin ? String(b.origin).slice(0, 60) : null;
   const url_text = b.url_text ? String(b.url_text).slice(0, MAX_URLTEXT) : null;
 
-  // image (optional)
   let image_base64 = null, image_media_type = null;
   if (b.image_base64) {
     const mt = String(b.image_media_type || "");
-    if (["image/jpeg", "image/png", "image/webp"].indexOf(mt) === -1) {
-      return { error: "Unsupported image type. Use JPG, PNG or WebP." };
-    }
+    if (["image/jpeg", "image/png", "image/webp"].indexOf(mt) === -1) return { error: "Unsupported image type. Use JPG, PNG or WebP." };
     const b64 = String(b.image_base64).replace(/\s/g, "");
-    // approx decoded size = 3/4 of base64 length
     if (b64.length * 0.75 > MAX_IMAGE_BYTES) return { error: "Image is over 4 MB. Please use a smaller file." };
     if (!/^[A-Za-z0-9+/=]+$/.test(b64)) return { error: "Image data looks corrupted. Please re-upload." };
     image_base64 = b64;
@@ -191,9 +224,9 @@ function validate(b) {
   return { value: { name, description, channel, unit_price, origin, url_text, image_base64, image_media_type } };
 }
 
-/* ------------------------------------------------------------------ *
+/* ================================================================== *
  *  Build Anthropic user content (product data only — never instructions)
- * ------------------------------------------------------------------ */
+ * ================================================================== */
 function buildUserContent(input) {
   const content = [];
   if (input.image_base64) {
@@ -217,69 +250,50 @@ function buildUserContent(input) {
   return content;
 }
 
-/* ------------------------------------------------------------------ *
+/* ================================================================== *
  *  Anthropic Messages API
- * ------------------------------------------------------------------ */
+ * ================================================================== */
 async function callAnthropic(apiKey, model, userContent, retryStrict) {
   const messages = [{ role: "user", content: userContent }];
-  if (retryStrict) {
-    // second attempt: nudge the assistant to start emitting JSON immediately
-    messages.push({ role: "assistant", content: "{" });
-  }
-  const payload = {
-    model: model,
-    max_tokens: 1800,
-    temperature: 0.2,
-    system: SYSTEM_PROMPT,
-    messages: messages
-  };
+  if (retryStrict) messages.push({ role: "assistant", content: "{" });
 
-  const res = await fetch(ANTHROPIC_URL, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": apiKey,
-      "anthropic-version": ANTHROPIC_VERSION
-    },
-    body: JSON.stringify(payload)
-  });
+  const payload = { model, max_tokens: 1800, temperature: 0.2, system: SYSTEM_PROMPT, messages };
+
+  const controller = new AbortController();
+  const t = setTimeout(() => controller.abort(), 40000);
+  let res;
+  try {
+    res = await fetch(ANTHROPIC_URL, {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-api-key": apiKey, "anthropic-version": ANTHROPIC_VERSION },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+  } finally { clearTimeout(t); }
 
   if (!res.ok) {
-    const t = await res.text().catch(() => "");
-    throw new Error("Anthropic API error " + res.status + ": " + t.slice(0, 300));
+    const txt = await res.text().catch(() => "");
+    throw new Error("Anthropic API error " + res.status + ": " + txt.slice(0, 300));
   }
   const data = await res.json();
   let text = "";
-  if (data && Array.isArray(data.content)) {
-    text = data.content.filter(c => c.type === "text").map(c => c.text).join("");
-  }
-  // If we primed the assistant with "{", prepend it back.
+  if (data && Array.isArray(data.content)) text = data.content.filter(c => c.type === "text").map(c => c.text).join("");
   if (retryStrict && text && text.trim()[0] !== "{") text = "{" + text;
   return text;
 }
 
-/* ------------------------------------------------------------------ *
- *  Parse: strip code fences, extract the JSON object defensively
- * ------------------------------------------------------------------ */
+/* ================================================================== *
+ *  Parse / normalize
+ * ================================================================== */
 function extractJSON(raw) {
   if (!raw) return null;
   let s = String(raw).trim();
-  // strip ```json ... ``` or ``` ... ```
   s = s.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "");
-  // find outermost {...}
-  const first = s.indexOf("{");
-  const last = s.lastIndexOf("}");
-  if (first === -1 || last === -1 || last <= first) {
-    try { return JSON.parse(s); } catch (e) { return null; }
-  }
-  const candidate = s.slice(first, last + 1);
-  try { return JSON.parse(candidate); } catch (e) { /* fall through */ }
+  const first = s.indexOf("{"), last = s.lastIndexOf("}");
+  if (first === -1 || last === -1 || last <= first) { try { return JSON.parse(s); } catch (e) { return null; } }
+  try { return JSON.parse(s.slice(first, last + 1)); } catch (e) {}
   try { return JSON.parse(s); } catch (e) { return null; }
 }
-
-/* ------------------------------------------------------------------ *
- *  Normalize: guarantee every schema field exists & types are sane
- * ------------------------------------------------------------------ */
 function normalize(p) {
   const arr = (x) => Array.isArray(x) ? x.filter(v => v != null).map(String) : [];
   const confSet = ["High", "Medium", "Grey area"];
@@ -335,43 +349,47 @@ function normalize(p) {
 }
 function numOrNull(v) { const n = Number(v); return isFinite(n) ? n : null; }
 
-/* ------------------------------------------------------------------ *
- *  Turnstile verification
- * ------------------------------------------------------------------ */
+/* ================================================================== *
+ *  Turnstile + Redis + helpers
+ * ================================================================== */
 async function verifyTurnstile(secret, token, ip) {
   if (!token) return false;
   try {
-    const form = new FormData();
+    const form = new URLSearchParams();
     form.append("secret", secret);
     form.append("response", token);
     if (ip) form.append("remoteip", ip);
-    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body: form });
+    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" }, body: form.toString()
+    });
     const data = await res.json();
     return !!(data && data.success);
   } catch (e) { return false; }
 }
-
-/* ------------------------------------------------------------------ *
- *  Helpers
- * ------------------------------------------------------------------ */
-function clientIP(request) {
-  return request.headers.get("CF-Connecting-IP") || request.headers.get("X-Forwarded-For") || "0.0.0.0";
+// Upstash Redis REST: atomic INCR then set TTL on first hit; returns the new count.
+async function redisIncrWithTtl(key, ttlSeconds) {
+  const url = process.env.UPSTASH_REDIS_REST_URL, token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const incr = await (await fetch(url + "/incr/" + encodeURIComponent(key), { headers: { Authorization: "Bearer " + token } })).json();
+  const count = Number(incr && incr.result) || 0;
+  if (count === 1) {
+    await fetch(url + "/expire/" + encodeURIComponent(key) + "/" + ttlSeconds, { headers: { Authorization: "Bearer " + token } }).catch(() => {});
+  }
+  return count;
+}
+function clientIP(req) {
+  const xff = req.headers["x-forwarded-for"];
+  if (xff) return String(xff).split(",")[0].trim();
+  return req.headers["x-real-ip"] || (req.socket && req.socket.remoteAddress) || "0.0.0.0";
 }
 function ymd() {
   const d = new Date();
   return d.getUTCFullYear() + "-" + String(d.getUTCMonth() + 1).padStart(2, "0") + "-" + String(d.getUTCDate()).padStart(2, "0");
 }
-function json(obj, status) {
-  return new Response(JSON.stringify(obj), {
-    status: status || 200,
-    headers: {
-      "content-type": "application/json; charset=utf-8",
-      "cache-control": "no-store",
-      "x-content-type-options": "nosniff"
-    }
+function readJson(req) {
+  return new Promise((resolve, reject) => {
+    let data = "";
+    req.on("data", (c) => { data += c; if (data.length > 7e6) reject(new Error("too large")); });
+    req.on("end", () => { try { resolve(JSON.parse(data || "{}")); } catch (e) { reject(e); } });
+    req.on("error", reject);
   });
-}
-function preflight() {
-  // Same-origin deployment needs no CORS; kept minimal for OPTIONS probes.
-  return new Response(null, { status: 204, headers: { "cache-control": "no-store" } });
 }
