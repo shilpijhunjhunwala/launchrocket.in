@@ -16,12 +16,12 @@ A SEO-optimised service page plus a **live, free single-SKU HS classifier** that
 |---|---|
 | `hs-classification/index.html` | The service page + the classifier UI (static, self-contained styles, JSON-LD). |
 | `hs-classification/app.js` | Front-end tool logic: form, image→base64, API call, five-block renderer, **client-side duty maths**, cross-sell chips, analytics. No secrets. |
-| `api/classify.js` | Vercel serverless function for the classifier. Holds the Anthropic call + system prompt. **The API key lives only here.** |
+| `api/classify.js` | Vercel serverless function for the classifier. Holds the Google Gemini call + system prompt. **The API key lives only here.** |
 | `vercel.json` | Vercel project config (function `maxDuration`, API response headers). |
 
 ### Architecture
 
-The marketing site stays on **GitHub Pages** (`launchrocket.in`). The classifier API is a **Vercel serverless function** deployed as a small, separate project and given the custom domain **`api.launchrocket.in`**. The page calls `https://api.launchrocket.in/api/classify` cross-origin; the function returns CORS headers for the `launchrocket.in` origins, and the page CSP allows exactly that host (`connect-src 'self' https://api.launchrocket.in`). The browser never sees the Anthropic key.
+The marketing site stays on **GitHub Pages** (`launchrocket.in`). The classifier API is a **Vercel serverless function** deployed as a small, separate project and given the custom domain **`api.launchrocket.in`**. The page calls `https://api.launchrocket.in/api/classify` cross-origin; the function returns CORS headers for the `launchrocket.in` origins, and the page CSP allows exactly that host (`connect-src 'self' https://api.launchrocket.in`). The browser never sees the API key.
 
 If the API isn't reachable yet, the tool degrades gracefully: it shows a friendly error inviting the visitor to email `care@launchrocket.in`.
 
@@ -29,15 +29,19 @@ If the API isn't reachable yet, the tool degrades gracefully: it shows a friendl
 
 Deploy `api/classify.js` as its own Vercel project (it serves only the API; the site itself remains on GitHub Pages).
 
+Easiest (no terminal): **vercel.com → Add New → Project → Import Git Repository**, pick this repo, framework preset **Other**, Deploy. Then add the env vars below in **Settings → Environment Variables** and redeploy.
+
+Or via CLI:
+
 ```bash
 npm i -g vercel        # or use npx
 vercel login
 vercel                 # first deploy → creates the project (accept defaults)
 
 # set the key + options (Production), then redeploy:
-vercel env add ANTHROPIC_API_KEY production      # required — paste the key
+vercel env add GEMINI_API_KEY production         # required — paste the Google AI Studio key
 vercel env add TURNSTILE_SECRET production       # optional — enables Turnstile
-vercel env add ANTHROPIC_MODEL production        # optional — defaults to claude-sonnet-5
+vercel env add GEMINI_MODEL production           # optional — defaults to gemini-2.5-flash
 vercel --prod
 ```
 
@@ -49,13 +53,15 @@ vercel --prod
 
 | Name | Required | Purpose |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | ✅ | Anthropic Messages API key. Server-side only. |
-| `ANTHROPIC_MODEL` | – | Model id; defaults to `claude-sonnet-5`. |
+| `GEMINI_API_KEY` | ✅ | Google AI Studio key — get one free at [aistudio.google.com/apikey](https://aistudio.google.com/apikey). Server-side only. (`GOOGLE_API_KEY` also accepted.) |
+| `GEMINI_MODEL` | – | Model id; defaults to `gemini-2.5-flash`. |
 | `TURNSTILE_SECRET` | – | Enables Cloudflare Turnstile verification when set. |
 | `ALLOWED_ORIGINS` | – | Comma-separated CORS allowlist override (default: `https://www.launchrocket.in,https://launchrocket.in`). |
 | `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | – | Enables the ~5 classifications/day per-IP limit (Upstash Redis — free tier, one click from the Vercel Marketplace). Without it, Turnstile still gates abuse. |
 
-The function calls the Anthropic Messages API with `temperature 0.2`, `max_tokens 1800`, **no web-search tool** (the free tier is explicitly indicative), and an image block when provided. It parses JSON defensively (strips code fences, retries once) and returns a normalised object matching the tool contract. **Product inputs are not persisted** — only an anonymised daily count is written (when Redis is configured).
+The function calls the Google Gemini `generateContent` API with `temperature 0.2`, JSON response mode, `maxOutputTokens 2048`, **no Google Search grounding** (the free tier is explicitly indicative), and an inline image part when provided. It parses JSON defensively (strips code fences, retries once) and returns a normalised object matching the tool contract. **Product inputs are not persisted** — only an anonymised daily count is written (when Redis is configured).
+
+> Gemini has a genuinely free tier (rate-limited); this keeps the tool at ~zero cost. To switch back to another provider later, only `callGemini` in `api/classify.js` changes.
 
 ### Front-end config
 
