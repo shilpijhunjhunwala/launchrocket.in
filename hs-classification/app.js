@@ -92,20 +92,20 @@
      Cross-sell link map — render each triggered flag as a chip to LR services.
      ========================================================================= */
   var LINK_MAP = [
-    { re: /legal\s*metrolog|label/i,                        href: "/#productlabelguru" },
-    { re: /fcc/i,                                            href: "/#global-approvals" },
-    { re: /ce[\s\-]?red|\bce\b/i,                            href: "/#global-approvals" },
-    { re: /bis|crs|isi|qco/i,                                href: "/#india-compliance" },
-    { re: /fssai/i,                                          href: "/#india-compliance" },
-    { re: /cdsco/i,                                          href: "/#india-compliance" },
-    { re: /wpc|eta/i,                                        href: "/#india-compliance" },
-    { re: /epr/i,                                            href: "/#india-compliance" },
-    { re: /bee|peso|ayush/i,                                 href: "/#india-compliance" },
-    { re: /dgft|scomet|rodtep|rcmc|\biec\b/i,                href: "/#india-compliance" }
+    { re: /legal\s*metrolog|label/i,                        href: "/product-label-guru/" },
+    { re: /fcc/i,                                            href: "/global-market-access/" },
+    { re: /ce[\s\-]?red|\bce\b/i,                            href: "/global-market-access/" },
+    { re: /bis|crs|isi|qco/i,                                href: "/india-certification/" },
+    { re: /fssai/i,                                          href: "/india-certification/" },
+    { re: /cdsco/i,                                          href: "/india-certification/" },
+    { re: /wpc|eta/i,                                        href: "/india-certification/" },
+    { re: /epr/i,                                            href: "/india-certification/" },
+    { re: /bee|peso|ayush/i,                                 href: "/india-certification/" },
+    { re: /dgft|scomet|rodtep|rcmc|\biec\b/i,                href: "/india-certification/" }
   ];
   function flagHref(flag) {
     for (var i = 0; i < LINK_MAP.length; i++) { if (LINK_MAP[i].re.test(flag)) return LINK_MAP[i].href; }
-    return "/#india-compliance"; // safe default: compliance hub
+    return "/india-certification/"; // safe default: compliance hub
   }
   function slug(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, ""); }
 

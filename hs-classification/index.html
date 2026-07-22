@@ -69,6 +69,7 @@ nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.07)}
 .nav-links a{font-family:var(--fd);font-weight:500;font-size:12.5px;color:var(--ink2);text-decoration:none;padding:7px 10px;border-radius:8px;transition:all .2s;display:flex;align-items:center;gap:4px;white-space:nowrap}
 .nav-links a:hover{color:var(--blue);background:var(--blue-l)}
 .nav-links a.cur{color:var(--blue);background:var(--blue-l)}
+.nav-links a.active{color:var(--blue);background:var(--blue-l)}
 .nav-cta{background:var(--blue)!important;color:white!important;padding:8px 16px!important;border-radius:8px}
 .nav-cta:hover{background:var(--blue-d)!important}
 .nav-dd{display:none;position:absolute;top:calc(100% + 8px);left:0;min-width:230px;background:white;border:1px solid var(--border);border-radius:var(--rl);box-shadow:var(--shl);padding:8px;z-index:300}
@@ -407,44 +408,41 @@ footer{background:#060E1F;color:rgba(255,255,255,.48);padding:56px 0 26px}
   <div class="container">
     <div class="nav-inner">
       <a href="/" class="logo" aria-label="Launch Rocket Home">
-        <div class="logo-mark">
-          <div class="logo-ring"></div>
-          <div class="logo-core"><svg class="logo-r" viewBox="0 0 13 19"><path d="M6.5 1C6.5 1 11 5 11 10.5L11 14.5L6.5 17.5L2 14.5L2 10.5C2 5 6.5 1 6.5 1Z"/><circle cx="6.5" cy="9" r="2" stroke-width="1.5"/></svg></div>
-        </div>
+        <div class="logo-mark"><div class="logo-ring"></div><div class="logo-core"><svg class="logo-r" viewBox="0 0 13 19"><path d="M6.5 1C6.5 1 11 5 11 10.5L11 14.5L6.5 17.5L2 14.5L2 10.5C2 5 6.5 1 6.5 1Z"/><circle cx="6.5" cy="9" r="2" stroke-width="1.5"/></svg></div></div>
         <div class="logo-text"><span class="logo-name">Launch Rocket</span><span class="logo-sub">Enabling Global Market Access</span></div>
       </a>
       <ul class="nav-links" id="navLinks">
         <li>
-          <a href="/#india-compliance">India Certification <svg class="nav-chev" viewBox="0 0 12 12"><polyline points="2 4 6 8 10 4"/></svg></a>
+          <a href="/india-certification/">India Certification <svg class="nav-chev" viewBox="0 0 12 12"><polyline points="2 4 6 8 10 4"/></svg></a>
           <div class="nav-dd">
-            <a href="/#india-compliance">BIS / CRS / ISI</a>
-            <a href="/#india-compliance">FSSAI Registration</a>
-            <a href="/#india-compliance">CDSCO / Medical Devices</a>
-            <a href="/#productlabelguru">Legal Metrology &amp; Labelling</a>
-            <a href="/#india-compliance">EPR Compliance</a>
-            <a href="/#india-compliance">BEE · DGFT · PESO</a>
+            <a href="/india-certification/#bis">BIS / CRS / ISI</a>
+            <a href="/india-certification/#fssai">FSSAI Registration</a>
+            <a href="/india-certification/#cdsco">CDSCO / Medical Devices</a>
+            <a href="/product-label-guru/">Legal Metrology &amp; Labelling</a>
+            <a href="/india-certification/#epr">EPR Compliance</a>
+            <a href="/india-certification/#more">BEE · DGFT · PESO · AYUSH</a>
           </div>
         </li>
         <li>
-          <a href="#" class="cur">Trade &amp; Duty <svg class="nav-chev" viewBox="0 0 12 12"><polyline points="2 4 6 8 10 4"/></svg></a>
+          <a href="/marketplace-enablement/">E-Commerce <svg class="nav-chev" viewBox="0 0 12 12"><polyline points="2 4 6 8 10 4"/></svg></a>
           <div class="nav-dd">
-            <a href="/hs-classification/">HS Classification &amp; Duty</a>
+            <a href="/marketplace-enablement/">Marketplace Enablement</a>
+            <a href="/product-label-guru/">Product Label Guru</a>
+            <a href="/rocket-proof/">RocketProof — Reviews &amp; Ratings</a>
+            <a href="/rocket-proof/#preflight">PreFlight Lab</a>
+          </div>
+        </li>
+        <li>
+          <a href="/global-market-access/" class="active">Global &amp; Trade <svg class="nav-chev" viewBox="0 0 12 12"><polyline points="2 4 6 8 10 4"/></svg></a>
+          <div class="nav-dd">
+            <a href="/global-market-access/">Global Market Access</a>
+            <a href="/global-market-access/#export">FCC · CE · Export</a>
+            <a href="/tariffproof/">TariffProof — Duty Intelligence</a>
             <a href="/hs-classification/#tool">Free HS Code Checker</a>
-            <a href="/hs-classification/#full-service">Duty Savings &amp; Monitoring</a>
-            <a href="/#global-approvals">Export (FCC / CE)</a>
           </div>
         </li>
-        <li>
-          <a href="/#ecommerce">E-Commerce <svg class="nav-chev" viewBox="0 0 12 12"><polyline points="2 4 6 8 10 4"/></svg></a>
-          <div class="nav-dd">
-            <a href="/#ecommerce">Marketplace Enablement</a>
-            <a href="/#productlabelguru">ProductLabelGuru</a>
-            <a href="/#rocketproof">RocketProof — Reviews &amp; Ratings</a>
-            <a href="/#ecommerce">Retail Analytics</a>
-          </div>
-        </li>
-        <li><a href="/#blog">Insights</a></li>
-        <li><a href="/hs-classification/#tool" class="nav-cta">Classify a Product</a></li>
+        <li><a href="/insights/">Insights</a></li>
+        <li><a href="/#contact" class="nav-cta">Get Started</a></li>
       </ul>
       <button class="hbg" id="hbg" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
@@ -774,24 +772,24 @@ footer{background:#060E1F;color:rgba(255,255,255,.48);padding:56px 0 26px}
           <li><a href="/hs-classification/#tool">Free HS Code Checker</a></li>
           <li><a href="/hs-classification/#full-service">Duty Savings &amp; FTA Routes</a></li>
           <li><a href="/hs-classification/#full-service">Tariff Monitoring</a></li>
-          <li><a href="/#global-approvals">FCC &amp; CE (Export)</a></li>
+          <li><a href="/global-market-access/">FCC &amp; CE (Export)</a></li>
         </ul>
       </div>
       <div>
         <div class="fh">India Certification</div>
         <ul class="fl">
-          <li><a href="/#india-compliance">BIS / CRS / ISI</a></li>
-          <li><a href="/#india-compliance">FSSAI Registration</a></li>
-          <li><a href="/#india-compliance">CDSCO Registration</a></li>
-          <li><a href="/#productlabelguru">Legal Metrology &amp; Labelling</a></li>
-          <li><a href="/#india-compliance">EPR Compliance</a></li>
+          <li><a href="/india-certification/">BIS / CRS / ISI</a></li>
+          <li><a href="/india-certification/">FSSAI Registration</a></li>
+          <li><a href="/india-certification/">CDSCO Registration</a></li>
+          <li><a href="/product-label-guru/">Legal Metrology &amp; Labelling</a></li>
+          <li><a href="/india-certification/">EPR Compliance</a></li>
         </ul>
       </div>
       <div>
         <div class="fh">Company</div>
         <ul class="fl">
-          <li><a href="/#ecommerce">Services</a></li>
-          <li><a href="/#blog">Insights &amp; Blog</a></li>
+          <li><a href="/marketplace-enablement/">Services</a></li>
+          <li><a href="/insights/">Insights &amp; Blog</a></li>
           <li><a href="/hs-classification/#faq">FAQ</a></li>
           <li><a href="#contact">Contact Us</a></li>
           <li><a href="mailto:care@launchrocket.in">care@launchrocket.in</a></li>

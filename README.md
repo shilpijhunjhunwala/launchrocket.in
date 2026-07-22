@@ -6,6 +6,35 @@ The site is a static site served by **GitHub Pages** (`CNAME` → `launchrocket.
 
 ---
 
+## Site structure
+
+The site is organised as a marketing **hub** (`/`) plus one page per capability, all sharing a single design system.
+
+| Path | Page |
+|---|---|
+| `/` (`index.html`) | Home — high-level marketing of every service + latest insights |
+| `/india-certification/` | India Certification & Compliance (BIS, FSSAI, CDSCO, Legal Metrology, EPR…) |
+| `/marketplace-enablement/` | Marketplace Enablement (Amazon, Flipkart, quick-commerce, D2C) |
+| `/product-label-guru/` | Product Label Guru — Legal Metrology label compliance |
+| `/rocket-proof/` | RocketProof — compliant reviews & pre-launch intelligence |
+| `/global-market-access/` | Global Market Access — FCC, CE, ISED, ANATEL, export |
+| `/tariffproof/` | TariffProof — HS classification & duty intelligence (markets the free tool) |
+| `/hs-classification/` | The live single-SKU HS classifier tool + full service page (see below) |
+| `/insights/` | Insights index — all articles, filterable by topic |
+| `/articles/*.html` | Individual article pages (each has its own independent URL) |
+
+**Shared design system.** `assets/site.css` (colours, fonts, all components) and `assets/site.js`
+(nav, reveal-on-scroll, FAQ accordion, category/insight filters, newsletter, share) are loaded by the
+hub and every subpage, so the palette and typography stay in sync. To restyle the whole site, edit
+`assets/site.css`. Articles remain self-contained (their styles are inline) but share the same tokens.
+
+Each subpage links relevant article **snippets** to their independent article pages, and every page
+cross-links the other services. SEO: per-page `<title>`, meta description, canonical, Open Graph/Twitter
+tags, plus JSON-LD (`Organization`, `WebSite`, `FAQPage`, `BreadcrumbList`, `Service`, `CollectionPage`).
+`sitemap.xml` and `robots.txt` (AI/LLM crawlers explicitly allowed) live at the root.
+
+---
+
 ## HS Classification & Duty Intelligence (`/hs-classification/`)
 
 A SEO-optimised service page plus a **live, free single-SKU HS classifier** that any visitor can use. It returns an ITC-HS 8-digit code, the indicative import-duty stack (BCD · SWS · AIDC · Health Cess · IGST), GST HSN, FTA routes, compliance flags and a GRI reasoning trail — all **indicative only, not expert-signed**.
